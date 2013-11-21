@@ -61,6 +61,21 @@ public class MainActivity extends Activity {
     }
 
 
+    /**
+     * Saves all the apps' data so don't have to go get it all again on a screen orientation change.
+     *
+     * @param outState the Bundle in which to store the data
+     * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
+     */
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(MainActivity.bundleKeyForList, this.theAppList);
+    }
+
+
     /* Uses an expanded BaseExpandableListAdapter to display the apps and their permissions.
      * @param theList an ArrayList<ApplicationInfo> of the apps
      * (non-Javadoc)
