@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Permissions</string>
+    <string name="action_settings">Settings</string>
+    <string name="list_apps">List Installed Apps</string>
+    <string name="list_apps_activity_label">Installed Apps</string>
+    <string name="number_of_apps">Number of Installed Apps: </string>
+    <string name="description_of_app_icon">app icon</string>
+    
+    <string name="no_permissions">This app has not requested the use of any permissions.</string>
+    <string name="permission_defined_by_app">This permission is defined by the app. No description is available.</string>
+    <string name="permission_defined_elsewhere">This permission is defined in another package.</string>
+
+</resources>
