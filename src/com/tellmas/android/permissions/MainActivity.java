@@ -112,9 +112,8 @@ public class MainActivity extends Activity {
     }
 
 
-    /* Initializes the ProgressBar. (We don't do this in onCreate() 'cause at
-     *    that point don't know the total number of apps. Also, this way, if
-     *    there are no apps, we won't even show the ProgressBar.)
+    /* Updates the ProgressBar.
+     * Also sets the max for the ProgressBar if this is the first time this method is called.
      * @param soFar how far along the app list we are
      * @param total total number of apps in the list
      * (non-Javadoc)
