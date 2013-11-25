@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +38,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
     private String[] slideoutMenuItems;
     private DrawerLayout drawerLayout;
     private ListView slideOutList;
+    private ActionBarDrawerToggle drawerToggle;
 
     /**
      * Sets the:
@@ -71,15 +73,21 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         );
         // Set the list's click listener
         this.slideOutList.setOnItemClickListener(new DrawerItemClickListener());
+
+        // --- Set the ActionBar app icon to toggle the nav drawer ---
+        this.getActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getActionBar().setHomeButtonEnabled(true);
+
         final CharSequence activityTitle = this.getTitle();
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+
+        // Tie together the the proper interactions between the sliding drawer and the ActionBar app icon
+        this.drawerToggle = new ActionBarDrawerToggle(
                 this,
                 this.drawerLayout,
                 R.drawable.ic_navigation_drawer,
                 R.string.drawer_open,
                 R.string.drawer_close
         ) {
-
             // Called when a drawer has settled in a completely closed state.
             @Override
             public void onDrawerClosed(View view) {
@@ -105,6 +113,36 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.content, this.fragments[GlobalDefines.STARTING_FRAGMENT_INDEX]);
         fragmentTransaction.commit();
+    }
+
+
+    /**
+     * @see android.app.Activity#onPostCreate(android.os.Bundle)
+     */
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPostCreate()");
+        super.onPostCreate(savedInstanceState);
+
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        this.drawerToggle.syncState();
+    }
+
+
+    /**
+     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onOptionsItemSelected()");
+
+        // if ActionBarDrawerToggle returns true...
+        if (this.drawerToggle.onOptionsItemSelected(item)) {
+            // ...then it has handled the app icon touch event.
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
