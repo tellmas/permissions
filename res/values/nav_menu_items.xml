@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="slideout_menu_items">
+        <item>Apps List</item>
+        <item>Permissions List</item>
+    </array>
+
+</resources>
