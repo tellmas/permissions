@@ -42,12 +42,13 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
     /**
      * Sets the:
-     *   * main layout.
-     *   * "hourglass"
-     *   * navigation menu
-     *   * initial content Fragment
+     *   - main layout
+     *   - "hourglass"
+     *   - navigation menu
+     *   - initial content Fragment
      *
      * @param savedInstanceState data to start with
+     * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
