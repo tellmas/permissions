@@ -55,7 +55,7 @@ public class AppListExpandableListAdapter extends BaseExpandableListAdapter {
 
         // === Permission template ===
         if (convertView == null) {
-          convertView = inflater.inflate(R.layout.applist_permission_layout, null);
+          convertView = inflater.inflate(R.layout.applist_perm_layout, null);
         }
         // --- Permission ---
         TextView permissionView = (TextView)convertView.findViewById(R.id.permission_name);
