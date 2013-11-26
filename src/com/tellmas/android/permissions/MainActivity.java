@@ -52,7 +52,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -122,7 +122,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPostCreate()");
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPostCreate()");
         super.onPostCreate(savedInstanceState);
 
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -135,7 +135,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onOptionsItemSelected()");
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onOptionsItemSelected()");
 
         // if ActionBarDrawerToggle returns true...
         if (this.drawerToggle.onOptionsItemSelected(item)) {
@@ -155,7 +155,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onSaveInstanceState (Bundle outState) {
-        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
         super.onSaveInstanceState(outState);
 
         // TODO: determine if we need to save anything
@@ -253,7 +253,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      * (non-Javadoc)
      */
     private void swapContent(int position, long id) {
-        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": swapContent()");
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": swapContent()");
         Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": swapContent(): position: " + Integer.toString(position) + "  -  id: " + Long.toString(id));
 
         boolean keepLastTransaction = true;

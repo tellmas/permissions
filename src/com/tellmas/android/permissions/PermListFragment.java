@@ -26,7 +26,7 @@ public class PermListFragment extends ListFragment {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
         super.onCreate(savedInstanceState);
 
         this.parentActivity = this.getActivity();
@@ -65,7 +65,7 @@ public class PermListFragment extends ListFragment {
             ViewGroup container,
             Bundle savedInstanceState
     ) {
-        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreateView()");
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreateView()");
         super.onCreateView(inflater, container, savedInstanceState);
 
         return inflater.inflate(R.layout.fragment_permlist_layout, container, false);
@@ -80,7 +80,7 @@ public class PermListFragment extends ListFragment {
      */
     @Override
     public void onAttach(Activity activity) {
-        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
         super.onAttach(activity);
 
         try {
