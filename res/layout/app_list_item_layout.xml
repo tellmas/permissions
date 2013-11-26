@@ -29,6 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_label"
         android:layout_toRightOf="@+id/app_icon"
-        android:textSize="15sp"
+        android:textSize="13sp"
     />
 </RelativeLayout>
