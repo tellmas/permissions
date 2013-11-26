@@ -68,7 +68,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         this.slideOutList.setAdapter(
             new ArrayAdapter<String>(
                 this,
-                R.layout.slideout_menu_item,
+                R.layout.drawer_item,
                 this.slideoutMenuItems
             )
         );

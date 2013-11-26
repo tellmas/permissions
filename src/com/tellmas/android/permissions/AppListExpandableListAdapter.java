@@ -55,7 +55,7 @@ public class AppListExpandableListAdapter extends BaseExpandableListAdapter {
 
         // === Permission template ===
         if (convertView == null) {
-          convertView = inflater.inflate(R.layout.app_list_item_dropdown_layout, null);
+          convertView = inflater.inflate(R.layout.applist_permission_layout, null);
         }
         // --- Permission ---
         TextView permissionView = (TextView)convertView.findViewById(R.id.permission_name);
@@ -104,7 +104,7 @@ public class AppListExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int appInfoPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.app_list_item_layout, null);
+            convertView = inflater.inflate(R.layout.applist_app_layout, null);
         }
 
         ApplicationInfo appInfo = (ApplicationInfo)getGroup(appInfoPosition);

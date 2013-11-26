@@ -68,7 +68,7 @@ public class PermListFragment extends ListFragment {
         Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreateView()");
         super.onCreateView(inflater, container, savedInstanceState);
 
-        return inflater.inflate(R.layout.perm_list_fragment_layout, container, false);
+        return inflater.inflate(R.layout.fragment_permlist_layout, container, false);
     }
 
 
