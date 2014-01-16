@@ -409,9 +409,7 @@ public class PermListFragment extends ListFragment {
             } // end of iterating through the permissions
 
             // --- Sort the List of permissions ---
-            // TODO: do we want to sort the permissions? and by what? fully-qualified name or human-readable?
-            // TODO: if so, need to implement PermissionInfoComparator
-            //Collections.sort(permissionInfoList, new PermissionInfoComparator());
+            Collections.sort(theListOfPermissions, new PermissionInfoComparator());
 
             return theListOfPermissions;
         } // end doInBackground
