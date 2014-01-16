@@ -10,7 +10,6 @@ import java.util.Map;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -183,47 +182,39 @@ public class PermListFragment extends ListFragment {
             intentFilter.addCategory(Intent.CATEGORY_LAUNCHER);
             final List<ResolveInfo> resolveInfoList = pm.queryIntentActivities(intentFilter, 0);
 
-            // === List of the packages of said apps ===
-            List<String> packages = new ArrayList<String>(resolveInfoList.size());
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": starting iteration through 'resolveInfoList'");
-            for (ResolveInfo resolveInfo : resolveInfoList) {
-                ActivityInfo activity = resolveInfo.activityInfo;
-                if (activity != null) {
-                    packages.add(activity.packageName);
-                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": activity: " + activity.packageName);
-                }
-            }
-
-/* TODO: improvement:
- *    don't create a new list of packages, just iterate through the ResolveInfo list in the below loop,
- *    and get the package name from the ResolveInfo
- */
-
             // The permissions with corresponding apps.
             Map<String,HashSet<String>> permissionsWithTheirApps = new HashMap<String,HashSet<String>>();
-            // === Iterate through the list of packages (which correspond to the apps discovered). ===
-            int numOfPackages = packages.size();
-            for (int i=0; i < numOfPackages; i++) {
+            // === Iterate through the found apps to get their requested permissions. ===
+            int appsFoundNum = resolveInfoList.size();
+            for (int i=0; i < appsFoundNum; i++) {
 
                 if (this.isCancelled()) {
                     return null;
                 }
 
+                // --- Get the package info. ---
                 PackageInfo packageInfo = null;
+                String packageName = null;
                 try {
-                    packageInfo = pm.getPackageInfo(packages.get(i), PackageManager.GET_PERMISSIONS);
+                    // Get the package name of an app found earlier.
+                    try {
+                        packageName = resolveInfoList.get(i).activityInfo.packageName;
+                    // if no ActivityInfo...
+                    } catch (NullPointerException npe) {
+                        Log.w(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": No ActivityInfo for this ResolveInfo: " + resolveInfoList.get(i).toString() + ". Excluded from listing.");
+                        // ...skip it.
+                        continue;
+                    }
+                    packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
                 // if the package wasn't found on the system...
                 } catch (NameNotFoundException nnfe) {
-                    Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packages.get(i) + " wasn't found on the system.");
+                    Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName + " wasn't found on the system.");
                     // ...skip it.
                     continue;
                     /* This really shouldn't happen though, because the same
                      * package manager was used to get the list of activities. */
                 }
-
-                // --- app's Package ---
-                String appPackage = packageInfo.packageName;
-                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + appPackage);
+                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
 
                 // === get the requested permissions for this app ===
                 String[] permsRequestedByThisApp = packageInfo.requestedPermissions;
@@ -244,11 +235,11 @@ public class PermListFragment extends ListFragment {
                         HashSet<String> appsForThisPermission = (HashSet<String>) permissionsWithTheirApps.get(perm);
                         try {
                             // if the app was not already listed...
-                            if (!appsForThisPermission.contains(appPackage)) {
+                            if (!appsForThisPermission.contains(packageName)) {
                                 // ...add it.
-                                appsForThisPermission.add(appPackage);
+                                appsForThisPermission.add(packageName);
                                 permissionsWithTheirApps.put(perm, appsForThisPermission);
-                                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + appPackage + " to " + perm);
+                                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
                             }
                             // else... this else case shouldn't happen.
                             // We're iterating through the apps, so this is the first time we've encountered this app.
@@ -256,21 +247,22 @@ public class PermListFragment extends ListFragment {
                         // if we haven't encountered this permission yet...
                         } catch (NullPointerException npe) {
                             appsForThisPermission = new HashSet<String>();
-                            appsForThisPermission.add(appPackage);
+                            appsForThisPermission.add(packageName);
                             permissionsWithTheirApps.put(perm, appsForThisPermission);
                             Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": First time encountering: " + perm + ". Adding it to the list.");
-                            Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + appPackage + " to " + perm);
+                            Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
                         }
                     }
+                // ...else the app didn't request any permissions...
                 } else {
-                	// else the app didn't request any permissions and won't be listed.
+                    // ...so the permissions won't be listed.
                 	Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": No permissions for this app.");
                 }
 
                 // set total number of permissions for the progress indicator
                 progress[1] = Integer.valueOf(permissionsWithTheirApps.size());
 
-            } // end of iterating through the app packages
+            } // end of iterating through the apps in the ResolveInfo list
 
 
             // the List to return
