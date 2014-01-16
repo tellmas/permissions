@@ -37,6 +37,13 @@ public final class GlobalDefines extends Application {
     public static final int STARTING_FRAGMENT_INDEX = FRAGMENT_CLASS_INDEX_FOR_APPLIST;
 
 
+    /**
+     * Defines for the type of list
+     */
+    public static final int LIST_TYPE_APPS = 1;
+    public static final int LIST_TYPE_PERMS = 2;
+
+
     public static final int EXIT_STATUS_ERROR = 1;
 
 

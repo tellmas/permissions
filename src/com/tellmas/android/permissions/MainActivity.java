@@ -1,8 +1,5 @@
 package com.tellmas.android.permissions;
 
-import com.tellmas.android.permissions.AppListFragment;
-import com.tellmas.android.permissions.PermListFragment;
-import com.tellmas.android.permissions.AppListFragment.AppListFragmentListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -18,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.tellmas.android.permissions.AppListFragment.AppListFragmentListener;
 
 /**
  * the Main Activity
@@ -186,12 +185,20 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      *  @param numOfApps the number of apps to be displayed
      */
     @Override
-    public void setFinished(int numOfApps) {
+    public void setFinished(int numOfItems, int itemType) {
 
         this.progressBar.setVisibility(View.GONE);
 
-        TextView numOfAppsInList = (TextView) this.findViewById(R.id.number_of_apps_num);
-        numOfAppsInList.setText(Integer.toString(numOfApps));
+        // TODO: convert this to be more automatic
+        TextView numOfItemsLabel = (TextView) this.findViewById(R.id.number_of_apps_label);
+        if (itemType == GlobalDefines.LIST_TYPE_APPS) {
+        	numOfItemsLabel.setText(getResources().getString(R.string.number_of_apps));
+        } else if (itemType == GlobalDefines.LIST_TYPE_PERMS) {
+        	numOfItemsLabel.setText(getResources().getString(R.string.number_of_perms));
+        }
+
+        TextView numOfItemsInList = (TextView) this.findViewById(R.id.number_of_items_num);
+        numOfItemsInList.setText(Integer.toString(numOfItems));
     }
 
 

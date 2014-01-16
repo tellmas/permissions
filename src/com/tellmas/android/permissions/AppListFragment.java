@@ -10,9 +10,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PermissionInfo;
 import android.content.pm.ResolveInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -121,7 +121,7 @@ public class AppListFragment extends ListFragment {
         } catch (NullPointerException npe) {
             Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of apps was null");
         } finally {
-            this.parentActivityListener.setFinished(numberOfApps);
+            this.parentActivityListener.setFinished(numberOfApps, GlobalDefines.LIST_TYPE_APPS);
         }
     }
 
@@ -155,7 +155,7 @@ public class AppListFragment extends ListFragment {
      */
     public interface AppListFragmentListener {
         public void updateProgress(int soFar, int total);
-        public void setFinished(int numOfApps);
+        public void setFinished(int numOfApps, int itemType);
     }
 
 
