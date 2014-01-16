@@ -115,6 +115,42 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         fragmentTransaction.commit();
     }
 
+    /* ********************************************************************* */
+    @Override
+    protected void onStart() {
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        super.onStart();
+    }
+    @Override
+    protected void onRestoreInstanceState(android.os.Bundle savedInstanceState) {
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestoreInstanceState()");
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+    @Override
+    protected void onResume() {
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        super.onResume();
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onWindowFocusChanged(): has focus: " + Boolean.toString(hasFocus));
+        super.onWindowFocusChanged(hasFocus);
+    }
+    @Override
+    protected void onPause() {
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        super.onPause();
+    }
+    @Override
+    protected void onStop() {
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        super.onStop();
+    }
+    @Override
+    protected void onDestroy() {
+        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        super.onDestroy();
+    }
 
     /**
      * @see android.app.Activity#onPostCreate(android.os.Bundle)
