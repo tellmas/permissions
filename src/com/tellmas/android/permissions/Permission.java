@@ -12,8 +12,11 @@ import android.os.Parcelable;
  */
 public class Permission implements Parcelable {
 
+    // canonical name of the permission
     private final String permission;
+    // human readable name of the permission
     private final String name;
+    // description of the permission
     private final String description;
 
     /**
