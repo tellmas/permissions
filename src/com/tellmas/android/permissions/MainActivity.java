@@ -196,9 +196,11 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         } else if (itemType == GlobalDefines.LIST_TYPE_PERMS) {
         	numOfItemsLabel.setText(getResources().getString(R.string.number_of_perms));
         }
+        numOfItemsLabel.setVisibility(View.VISIBLE);
 
         TextView numOfItemsInList = (TextView) this.findViewById(R.id.number_of_items_num);
         numOfItemsInList.setText(Integer.toString(numOfItems));
+        numOfItemsInList.setVisibility(View.VISIBLE);
     }
 
 
@@ -268,8 +270,21 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         Fragment removeMe = null;
         Fragment currentlyDisplayedFragment = this.fragmentManager.findFragmentById(R.id.content);
 
+        // --- Show the Progress bar again. ---
+        this.progressBar.setProgress(0);
+        this.progressBar.setVisibility(View.VISIBLE);
+
+        // --- Hide the number of items. ---
+        TextView numOfItemsNum = (TextView) findViewById(R.id.number_of_items_num);
+        numOfItemsNum.setVisibility(View.INVISIBLE);
+
+
         // if the user chose a Fragment which hasn't been displayed yet...
         if (this.fragments[position] == null) {
+
+            // --- Hide the text label describing the type of items. ---
+            TextView numOfItemsText = (TextView) findViewById(R.id.number_of_apps_label);
+            numOfItemsText.setVisibility(View.INVISIBLE);
 
             // ...create a new instance so it can be displayed.
             this.fragments[position] = this.instantiateFragment(position);
@@ -280,13 +295,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
             // TODO need to use reflection here 'cause if there's more than a few classes...
             // TODO or maybe define an interface with getTheDataAndDisplayIt() required.
 
-
-            // ...show the progress bar, and...
-            this.progressBar.setProgress(0);
-            this.progressBar.setVisibility(View.VISIBLE);
-
-
-            // ...update the Fragment's data/display and keep it there.
+            // Update the Fragment's data/display and keep it there.
             if (currentlyDisplayedFragment instanceof AppListFragment) {
                 ((AppListFragment)currentlyDisplayedFragment).getTheDataAndDisplayIt();
             }
