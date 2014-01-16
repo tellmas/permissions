@@ -1,6 +1,7 @@
 package com.tellmas.android.permissions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -389,8 +390,8 @@ public class PermListFragment extends ListFragment {
 
                 }
 
-                // TODO sort theAppsDataList
-
+                // Sort the apps data list.
+                Collections.sort(theAppsDataList, new ApplicationInfoComparator());
 
                 // Add the permission (with its apps' data) to the data List.
                 theListOfPermissions.add(
