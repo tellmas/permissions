@@ -1,28 +1,43 @@
 package com.tellmas.android.permissions;
 
-// TODO convert this to use the AsyncTask and an ExpandableListView, and you know, actually get a list of permissions
-
-//import com.tellmas.android.permissions.AppListFragment.GetThePermsAsyncTask;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.PermissionInfo;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources.NotFoundException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ExpandableListView;
+
+import com.tellmas.android.permissions.AppListFragment.AppListFragmentListener;
 
 public class PermListFragment extends ListFragment {
 
-    //private ArrayList<PermissionInfo> thePermList;
+    private ArrayList<com.tellmas.android.permissions.PermissionInfo> thePermList;
 
     private Activity parentActivity;
-    //private AppListFragmentListener parentActivityListener;
+    private AppListFragmentListener parentActivityListener;
 
 
     /**
-     * TODO
+     * @param savedInstanceState data to start with
+     * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +47,8 @@ public class PermListFragment extends ListFragment {
         this.parentActivity = this.getActivity();
 
         if (savedInstanceState != null) {
-            //this.thePermList = savedInstanceState.getParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_PERM_LIST);
-            //this.displayTheResults(this.thePermList);
+            this.thePermList = savedInstanceState.getParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_PERM_LIST);
+            this.displayTheResults(this.thePermList);
         } else {
 
             this.getTheDataAndDisplayIt();
@@ -42,13 +57,11 @@ public class PermListFragment extends ListFragment {
 
 
     /**
-     * TODO
+     * Executes the AsyncTask inner-class.
      */
     public void getTheDataAndDisplayIt() {
-        //GetThePermsAsyncTask getThePerms = new GetThePermsAsyncTask();
-        //getThePerms.execute(this.parentActivity);
-        TextView text = (TextView) this.parentActivity.findViewById(R.id.perms_list);
-        text.setText("This will be the Permissions list.");
+        GetThePermsAsyncTask getThePerms = new GetThePermsAsyncTask();
+        getThePerms.execute(this.parentActivity);
     }
 
 
@@ -73,10 +86,11 @@ public class PermListFragment extends ListFragment {
 
 
     /**
-     *TODO
+     * Sets up the connection for callbacks to the parent Activity.
      *
      * @param activity the containing Activity
      * @throws ClassCastException
+     * @see android.app.Fragment#onAttach(android.app.Activity)
      */
     @Override
     public void onAttach(Activity activity) {
@@ -84,9 +98,360 @@ public class PermListFragment extends ListFragment {
         super.onAttach(activity);
 
         try {
-            //this.parentActivityListener = (PermListFragmentListener) activity;
+            this.parentActivityListener = (AppListFragmentListener) activity;
         } catch (ClassCastException cce) {
-            throw new ClassCastException(activity.getClass().getName() + " did not implement AppListFragmentListener");
+            throw new ClassCastException(activity.getClass().getName() + " did not implement PermListFragmentListener");
         }
     }
+
+
+
+    /*
+     * Uses an expanded BaseExpandableListAdapter to display the permissions and the apps that request them.
+     * @param theList a List<PermissionInfo> of the permissions
+     * (non-Javadoc)
+     */
+    private void displayTheResults(List<com.tellmas.android.permissions.PermissionInfo> theList) {
+
+        int numberOfApps = 0;
+        try {
+            numberOfApps = theList.size();
+            // === Display all the apps ===
+            PermListExpandableListAdapter permListAdapter = new PermListExpandableListAdapter(this.parentActivity, theList);
+            ExpandableListView permListView = (ExpandableListView) this.parentActivity.findViewById(R.id.perms_list);
+            permListView.setAdapter(permListAdapter);
+        // if 'theList' was null...
+        } catch (NullPointerException npe) {
+            Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of permissions was null");
+        } finally {
+            this.parentActivityListener.setFinished(numberOfApps);
+        }
+    }
+
+
+    /* Uses an expanded BaseExpandableListAdapter to display the apps and their permissions.
+     * @param theList an ArrayList<ApplicationInfo> of the apps
+     * (non-Javadoc)
+     */
+    private void finalizeTheResults(ArrayList<com.tellmas.android.permissions.PermissionInfo> theList) {
+        this.thePermList = theList;
+        this.displayTheResults(theList);
+    }
+
+
+    /*
+     * Calls the parent Activity's callback to update the progress.
+     *
+     * @param soFar how far along the app list we are
+     * @param total total number of apps in the list
+     * (non-Javadoc)
+     */
+    private void setProgress(int soFar, int total) {
+        this.parentActivityListener.updateProgress(soFar, total);
+    }
+
+
+    // -------------------------------------------------------------------------
+    /**
+     * Interface of callbacks to the containing Activity (which the containing
+     *   Activity must implement).
+     */
+    public interface PermListFragmentListener {
+        public void updateProgress(int soFar, int total);
+        public void setFinished(int numOfApps);
+    }
+
+
+    // -------------------------------------------------------------------------
+    /* AsyncTask which obtains info on all the permissions which are requested
+     *   by the apps on the device (which have a launcher)
+     * @param contexts a single element array containing the outer class's instance (i.e. 'this')
+     * @return a List<PermissionInfo> containing all the permissions
+     * (non-Javadoc)
+     */
+    private class GetThePermsAsyncTask extends AsyncTask<Activity, Integer, ArrayList<com.tellmas.android.permissions.PermissionInfo>> {
+
+        @Override
+        protected ArrayList<com.tellmas.android.permissions.PermissionInfo> doInBackground(Activity... contexts) {
+
+            final Activity context = contexts[0];
+            final PackageManager pm = context.getPackageManager();
+            Integer[] progress = {Integer.valueOf(0), Integer.valueOf(0)};
+
+            // === List of apps which have a Launcher ===
+            final Intent intentFilter = new Intent(Intent.ACTION_MAIN, null);
+            intentFilter.addCategory(Intent.CATEGORY_LAUNCHER);
+            final List<ResolveInfo> resolveInfoList = pm.queryIntentActivities(intentFilter, 0);
+
+            // === List of the packages of said apps ===
+            List<String> packages = new ArrayList<String>(resolveInfoList.size());
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": starting iteration through 'resolveInfoList'");
+            for (ResolveInfo resolveInfo : resolveInfoList) {
+                ActivityInfo activity = resolveInfo.activityInfo;
+                if (activity != null) {
+                    packages.add(activity.packageName);
+                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": activity: " + activity.packageName);
+                }
+            }
+
+/* TODO: improvement:
+ *    don't create a new list of packages, just iterate through the ResolveInfo list in the below loop,
+ *    and get the package name from the ResolveInfo
+ */
+
+            // The permissions with corresponding apps.
+            Map<String,HashSet<String>> permissionsWithTheirApps = new HashMap<String,HashSet<String>>();
+            // === Iterate through the list of packages (which correspond to the apps discovered). ===
+            int numOfPackages = packages.size();
+            for (int i=0; i < numOfPackages; i++) {
+
+                if (this.isCancelled()) {
+                    return null;
+                }
+
+                PackageInfo packageInfo = null;
+                try {
+                    packageInfo = pm.getPackageInfo(packages.get(i), PackageManager.GET_PERMISSIONS);
+                // if the package wasn't found on the system...
+                } catch (NameNotFoundException nnfe) {
+                    Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packages.get(i) + " wasn't found on the system.");
+                    // ...skip it.
+                    continue;
+                    /* This really shouldn't happen though, because the same
+                     * package manager was used to get the list of activities. */
+                }
+
+                // --- app's Package ---
+                String appPackage = packageInfo.packageName;
+                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + appPackage);
+
+                // === get the requested permissions for this app ===
+                String[] permsRequestedByThisApp = packageInfo.requestedPermissions;
+                // if this app requests one or more permissions...
+                if (permsRequestedByThisApp != null) {
+                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": requested permissions array length: " + Integer.toString(permsRequestedByThisApp.length));
+
+                    // === Iterate through the permissions requested by the current app. ===
+                    for (String perm : permsRequestedByThisApp) {
+
+                    	Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": current permission: " + perm);
+
+                        if (this.isCancelled()) {
+                            return null;
+                        }
+
+                        // Get the set of apps that requested this permission.
+                        HashSet<String> appsForThisPermission = (HashSet<String>) permissionsWithTheirApps.get(perm);
+                        try {
+                            // if the app was not already listed...
+                            if (!appsForThisPermission.contains(appPackage)) {
+                                // ...add it.
+                                appsForThisPermission.add(appPackage);
+                                permissionsWithTheirApps.put(perm, appsForThisPermission);
+                                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + appPackage + " to " + perm);
+                            }
+                            // else... this else case shouldn't happen.
+                            // We're iterating through the apps, so this is the first time we've encountered this app.
+
+                        // if we haven't encountered this permission yet...
+                        } catch (NullPointerException npe) {
+                            appsForThisPermission = new HashSet<String>();
+                            appsForThisPermission.add(appPackage);
+                            permissionsWithTheirApps.put(perm, appsForThisPermission);
+                            Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": First time encountering: " + perm + ". Adding it to the list.");
+                            Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + appPackage + " to " + perm);
+                        }
+                    }
+                } else {
+                	// else the app didn't request any permissions and won't be listed.
+                	Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": No permissions for this app.");
+                }
+
+                // set total number of permissions for the progress indicator
+                progress[1] = Integer.valueOf(permissionsWithTheirApps.size());
+
+            } // end of iterating through the app packages
+
+
+            // the List to return
+            ArrayList<com.tellmas.android.permissions.PermissionInfo> theListOfPermissions =
+                    new ArrayList<com.tellmas.android.permissions.PermissionInfo>(permissionsWithTheirApps.size());
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": *** Construting the data which will be displayed. ***");
+
+            // === Iterate through the permissions to construct the data List which will be returned. ===
+            Iterator<String> permissionsIterator = permissionsWithTheirApps.keySet().iterator();
+            while (permissionsIterator.hasNext()) {
+
+                String permission = permissionsIterator.next();
+
+                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": === Permission ===");
+                PermissionInfo permInfo = null; // android.content.pm.PermissionInfo
+                try {
+                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permission);
+                    permInfo = pm.getPermissionInfo(permission, PackageManager.GET_META_DATA);
+                // if the package manager did not find the permission...
+                } catch (NameNotFoundException nnfe) {
+                    Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Permission not found: " + permission);
+                    // ...create a bare-bones PermissionInfo object to use instead.
+                    permInfo = new PermissionInfo();
+                    permInfo.labelRes = 0;
+                    permInfo.descriptionRes = 0;
+                }
+
+                // --- permission Name ---
+                String permissionName = null;
+                try {
+                    permissionName = context.getResources().getString(permInfo.labelRes);
+                // if the Resource did not find the human readable name...
+                } catch (NotFoundException nfe) {
+                    permissionName = permInfo.name;
+                    CharSequence nameCharSeq1 = permInfo.loadLabel(pm);
+                    CharSequence nameCharSeq2 = permInfo.nonLocalizedLabel;
+                    // if we already have a name...
+                    if (permissionName != null) {
+                        // ...just use it.
+                    } else if (nameCharSeq1 != null) {
+                        permissionName = nameCharSeq1.toString();
+                    } else if (nameCharSeq2 != null) {
+                        permissionName = nameCharSeq2.toString();
+                    } else {
+                        permissionName = permission;
+                    }
+                }
+                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permissionName);
+
+                // --- permission Description ---
+                String description = null;
+                try {
+                    description = context.getResources().getString(permInfo.descriptionRes);
+                // if the Resource did not find the description...
+                } catch (NotFoundException nfe) {
+                    CharSequence descCharSeq1 = permInfo.loadDescription(pm);
+                    CharSequence descCharSeq2 = permInfo.nonLocalizedDescription;
+                    if (descCharSeq1 != null) {
+                        description = descCharSeq1.toString();
+                    } else if (descCharSeq2 != null) {
+                        description = descCharSeq2.toString();
+                    } else if (permInfo.descriptionRes == 0) {
+                        description = context.getResources().getString(R.string.permission_defined_by_app);
+                    // ...else if the permission is an 'android.permission.' permission...
+                    } else if (permission.startsWith(GlobalDefines.ANDROID_PERMISSION_PREFIX, 0)) {
+                        // ...but we didn't find the description earlier...
+                        // ...log the permission.
+                        Log.e(GlobalDefines.LOG_TAG,
+                            this.getClass().getSimpleName() +
+                            ": Error getting description for (the android.permission. permission): " +
+                            permission
+                        );
+                        description = null;
+                    } else {
+                        description = context.getResources().getString(R.string.permission_defined_elsewhere);
+                    }
+                }
+                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + description);
+
+                // the data for all the apps that use this permission
+                ArrayList<ApplicationInfo> theAppsDataList = new ArrayList<ApplicationInfo>();
+                // the set of app package names for this permission
+                HashSet<String> theAppsPackages = permissionsWithTheirApps.get(permission);
+
+                // === Iterate through each of the apps by package name. ===
+                Iterator<String> appPackagesIterator = theAppsPackages.iterator();
+                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": --- Apps using this permission ---");
+                while (appPackagesIterator.hasNext()) {
+
+                    if (this.isCancelled()) {
+                        return theListOfPermissions;
+                    }
+
+                    String packageName = appPackagesIterator.next();
+                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
+
+                    PackageInfo packageInfo = null;
+                    try {
+                        packageInfo = pm.getPackageInfo(packageName, 0);
+                    // if the package wasn't found on the system...
+                    } catch (NameNotFoundException nnfe) {
+                        Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName + " wasn't found on the system.");
+                        // ...skip it.
+                        continue;
+                        /* This really shouldn't happen though, because the same
+                         * package manager was used to get the list of activities. */
+                    }
+
+                    // --- app's Label ---
+                    String appLabel = packageInfo.applicationInfo.loadLabel(pm).toString();
+                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + appLabel);
+
+                    // --- icon's Resource Id ---
+                    int iconResourceId = packageInfo.applicationInfo.icon;
+                    if (iconResourceId == 0) {
+                        iconResourceId = packageInfo.applicationInfo.logo;
+                    }
+                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": icon resource id: " + Integer.toString(iconResourceId));
+
+                    // Add this app's data to the List for the permission.
+                    theAppsDataList.add(
+                        new ApplicationInfo(appLabel, iconResourceId, packageName, null)
+                    );
+
+                }
+
+                // TODO sort theAppsDataList
+
+
+                // Add the permission (with its apps' data) to the data List.
+                theListOfPermissions.add(
+                    new com.tellmas.android.permissions.PermissionInfo(
+                        new Permission(permission, permissionName, description),
+                        theAppsDataList
+                    )
+                );
+
+
+                progress[0] = Integer.valueOf(progress[0].intValue() + 1);
+                publishProgress(progress);
+
+            } // end of iterating through the permissions
+
+            // --- Sort the List of permissions ---
+            // TODO: do we want to sort the permissions? and by what? fully-qualified name or human-readable?
+            // TODO: if so, need to implement PermissionInfoComparator
+            //Collections.sort(permissionInfoList, new PermissionInfoComparator());
+
+            return theListOfPermissions;
+        } // end doInBackground
+
+
+        /*
+         * (non-Javadoc)
+         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+         */
+        @Override
+        protected void onPostExecute(ArrayList<com.tellmas.android.permissions.PermissionInfo> theList) {
+            finalizeTheResults(theList);
+        }
+
+
+        /*
+         * (non-Javadoc)
+         * @see android.os.AsyncTask#onProgressUpdate(Progress[])
+         */
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+            setProgress(progress[0].intValue(), progress[1].intValue());
+        }
+
+
+        /*
+         * (non-Javadoc)
+         * @see android.os.AsyncTask#onCancelled()
+         */
+        @Override
+        protected void onCancelled() {
+            // display nothing
+            finalizeTheResults(null);
+        }
+
+    } // end getTheAppsAsyncTask
 }
