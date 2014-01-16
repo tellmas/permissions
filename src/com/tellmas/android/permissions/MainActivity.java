@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -118,37 +118,37 @@ public class MainActivity extends Activity implements AppListFragmentListener {
     /* ********************************************************************* */
     @Override
     protected void onStart() {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
         super.onStart();
     }
     @Override
     protected void onRestoreInstanceState(android.os.Bundle savedInstanceState) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestoreInstanceState()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestoreInstanceState()");
         super.onRestoreInstanceState(savedInstanceState);
     }
     @Override
     protected void onResume() {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
         super.onResume();
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onWindowFocusChanged(): has focus: " + Boolean.toString(hasFocus));
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onWindowFocusChanged(): has focus: " + Boolean.toString(hasFocus));
         super.onWindowFocusChanged(hasFocus);
     }
     @Override
     protected void onPause() {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
         super.onPause();
     }
     @Override
     protected void onStop() {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
         super.onStop();
     }
     @Override
     protected void onDestroy() {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
         super.onDestroy();
     }
 
@@ -157,7 +157,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPostCreate()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPostCreate()");
         super.onPostCreate(savedInstanceState);
 
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -170,7 +170,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onOptionsItemSelected()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onOptionsItemSelected()");
 
         // if ActionBarDrawerToggle returns true...
         if (this.drawerToggle.onOptionsItemSelected(item)) {
@@ -190,7 +190,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onSaveInstanceState (Bundle outState) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
         super.onSaveInstanceState(outState);
 
         // TODO: determine if we need to save anything

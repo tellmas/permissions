@@ -42,7 +42,7 @@ public class PermListFragment extends ListFragment {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
         super.onCreate(savedInstanceState);
 
         this.parentActivity = this.getActivity();
@@ -79,7 +79,7 @@ public class PermListFragment extends ListFragment {
             ViewGroup container,
             Bundle savedInstanceState
     ) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreateView()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreateView()");
         super.onCreateView(inflater, container, savedInstanceState);
 
         return inflater.inflate(R.layout.fragment_permlist_layout, container, false);
@@ -95,7 +95,7 @@ public class PermListFragment extends ListFragment {
      */
     @Override
     public void onAttach(Activity activity) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
         super.onAttach(activity);
 
         try {
@@ -216,18 +216,18 @@ public class PermListFragment extends ListFragment {
                     /* This really shouldn't happen though, because the same
                      * package manager was used to get the list of activities. */
                 }
-                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
+                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
 
                 // === get the requested permissions for this app ===
                 String[] permsRequestedByThisApp = packageInfo.requestedPermissions;
                 // if this app requests one or more permissions...
                 if (permsRequestedByThisApp != null) {
-                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": requested permissions array length: " + Integer.toString(permsRequestedByThisApp.length));
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": requested permissions array length: " + Integer.toString(permsRequestedByThisApp.length));
 
                     // === Iterate through the permissions requested by the current app. ===
                     for (String perm : permsRequestedByThisApp) {
 
-                    	Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": current permission: " + perm);
+                    	Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": current permission: " + perm);
 
                         if (this.isCancelled()) {
                             return null;
@@ -241,7 +241,7 @@ public class PermListFragment extends ListFragment {
                                 // ...add it.
                                 appsForThisPermission.add(packageName);
                                 permissionsWithTheirApps.put(perm, appsForThisPermission);
-                                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
+                                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
                             }
                             // else... this else case shouldn't happen.
                             // We're iterating through the apps, so this is the first time we've encountered this app.
@@ -251,14 +251,14 @@ public class PermListFragment extends ListFragment {
                             appsForThisPermission = new HashSet<String>();
                             appsForThisPermission.add(packageName);
                             permissionsWithTheirApps.put(perm, appsForThisPermission);
-                            Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": First time encountering: " + perm + ". Adding it to the list.");
-                            Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
+                            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": First time encountering: " + perm + ". Adding it to the list.");
+                            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
                         }
                     }
                 // ...else the app didn't request any permissions...
                 } else {
                     // ...so the permissions won't be listed.
-                	Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": No permissions for this app.");
+                	Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": No permissions for this app.");
                 }
 
                 // set total number of permissions for the progress indicator
@@ -270,7 +270,7 @@ public class PermListFragment extends ListFragment {
             // the List to return
             ArrayList<com.tellmas.android.permissions.PermissionInfo> theListOfPermissions =
                     new ArrayList<com.tellmas.android.permissions.PermissionInfo>(permissionsWithTheirApps.size());
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": *** Construting the data which will be displayed. ***");
+            Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": *** Construting the data which will be displayed. ***");
 
             // === Iterate through the permissions to construct the data List which will be returned. ===
             Iterator<String> permissionsIterator = permissionsWithTheirApps.keySet().iterator();
@@ -278,10 +278,10 @@ public class PermListFragment extends ListFragment {
 
                 String permission = permissionsIterator.next();
 
-                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": === Permission ===");
+                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": === Permission ===");
                 PermissionInfo permInfo = null; // android.content.pm.PermissionInfo
                 try {
-                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permission);
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permission);
                     permInfo = pm.getPermissionInfo(permission, PackageManager.GET_META_DATA);
                 // if the package manager did not find the permission...
                 } catch (NameNotFoundException nnfe) {
@@ -312,7 +312,7 @@ public class PermListFragment extends ListFragment {
                         permissionName = permission;
                     }
                 }
-                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permissionName);
+                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permissionName);
 
                 // --- permission Description ---
                 String description = null;
@@ -342,7 +342,7 @@ public class PermListFragment extends ListFragment {
                         description = context.getResources().getString(R.string.permission_defined_elsewhere);
                     }
                 }
-                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + description);
+                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + description);
 
                 // the data for all the apps that use this permission
                 List<ApplicationInfo> theAppsDataList = new LinkedList<ApplicationInfo>();
@@ -351,7 +351,7 @@ public class PermListFragment extends ListFragment {
 
                 // === Iterate through each of the apps by package name. ===
                 Iterator<String> appPackagesIterator = theAppsPackages.iterator();
-                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": --- Apps using this permission ---");
+                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": --- Apps using this permission ---");
                 while (appPackagesIterator.hasNext()) {
 
                     if (this.isCancelled()) {
@@ -359,7 +359,7 @@ public class PermListFragment extends ListFragment {
                     }
 
                     String packageName = appPackagesIterator.next();
-                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
 
                     PackageInfo packageInfo = null;
                     try {
@@ -375,14 +375,14 @@ public class PermListFragment extends ListFragment {
 
                     // --- app's Label ---
                     String appLabel = packageInfo.applicationInfo.loadLabel(pm).toString();
-                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + appLabel);
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + appLabel);
 
                     // --- icon's Resource Id ---
                     int iconResourceId = packageInfo.applicationInfo.icon;
                     if (iconResourceId == 0) {
                         iconResourceId = packageInfo.applicationInfo.logo;
                     }
-                    Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": icon resource id: " + Integer.toString(iconResourceId));
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": icon resource id: " + Integer.toString(iconResourceId));
 
                     // Add this app's data to the List for the permission.
                     theAppsDataList.add(
