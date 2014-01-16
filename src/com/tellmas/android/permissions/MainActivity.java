@@ -311,6 +311,10 @@ public class MainActivity extends Activity implements AppListFragmentListener {
             removeMe = this.fragments[position];
             // Create a new instance to be displayed.
             this.fragments[position] = this.instantiateFragment(position);
+
+            // --- Hide the text label describing the type of items. ---
+            TextView numOfItemsText = (TextView) findViewById(R.id.number_of_apps_label);
+            numOfItemsText.setVisibility(View.INVISIBLE);
         }
 
         // if need to do a transaction...
