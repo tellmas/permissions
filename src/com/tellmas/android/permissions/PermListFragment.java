@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -344,7 +345,7 @@ public class PermListFragment extends ListFragment {
                 Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + description);
 
                 // the data for all the apps that use this permission
-                ArrayList<ApplicationInfo> theAppsDataList = new ArrayList<ApplicationInfo>();
+                List<ApplicationInfo> theAppsDataList = new LinkedList<ApplicationInfo>();
                 // the set of app package names for this permission
                 HashSet<String> theAppsPackages = permissionsWithTheirApps.get(permission);
 
