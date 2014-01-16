@@ -12,6 +12,8 @@
     <string name="permission_defined_by_app">This permission is defined by the app. No description is available.</string>
     <string name="permission_defined_elsewhere">This permission is defined in another package.</string>
 
+    <string name="no_apps">This permission has not been requested by any installed apps.</string>
+
     <!--  Slide-Out drawer -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
