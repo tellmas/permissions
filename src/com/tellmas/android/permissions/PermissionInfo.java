@@ -18,10 +18,8 @@ public class PermissionInfo implements Parcelable {
 
     /**
      * standard constructor
-     * @param appName the name (aka 'label') of the app
-     * @param iconResourceId the app's icon's resource id
-     * @param packageName the app's package name
-     * @param permissions a list of the requested permissions
+     * @param permission Permission object
+     * @param apps List of ApplicationInfo of the apps which use this permission
      */
     public PermissionInfo(Permission permission, List<ApplicationInfo> apps) {
         this.permission = permission;
