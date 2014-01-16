@@ -30,8 +30,8 @@
             <ProgressBar
                 android:id="@+id/progress"
                 style="@android:style/Widget.ProgressBar.Large"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/number_of_items_num"
                 android:gravity="center_horizontal"
