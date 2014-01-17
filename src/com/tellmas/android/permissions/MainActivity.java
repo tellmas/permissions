@@ -115,7 +115,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         fragmentTransaction.commit();
     }
 
-    /* ********************************************************************* */
+    /* ******************* Unused lifecycle methods *********************** */
     @Override
     protected void onStart() {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
@@ -151,6 +151,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
         super.onDestroy();
     }
+    /* ****************** END Unused lifecycle methods ******************** */
 
     /**
      * @see android.app.Activity#onPostCreate(android.os.Bundle)
