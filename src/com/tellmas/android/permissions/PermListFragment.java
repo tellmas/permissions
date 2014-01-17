@@ -105,6 +105,48 @@ public class PermListFragment extends ListFragment {
         }
     }
 
+    /* ******************* Unused lifecycle methods *********************** */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onActivityCreated()");
+        super.onActivityCreated(savedInstanceState);
+    }
+    @Override
+    public void onStart() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        super.onStart();
+    }
+    @Override
+    public void onResume() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        super.onResume();
+    }
+    @Override
+    public void onPause() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        super.onPause();
+    }
+    @Override
+    public void onStop() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        super.onStop();
+    }
+    @Override
+    public void onDestroyView() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroyView()");
+        super.onDestroyView();
+    }
+    @Override
+    public void onDestroy() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        super.onDestroy();
+    }
+    @Override
+    public void onDetach() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDetach()");
+        super.onDetach();
+    }
+    /* ****************** END Unused lifecycle methods ******************** */
 
 
     /*
