@@ -36,6 +36,11 @@ public final class GlobalDefines extends Application {
      */
     public static final int STARTING_FRAGMENT_INDEX = FRAGMENT_CLASS_INDEX_FOR_APPLIST;
 
+    /**
+     * indicates the index of the Fragment to restore upon creation in the savedInstanceState Bundle
+     */
+    public static final String BUNDLE_KEY_FRAGMENT_TO_RESTORE = "FragmentToRestore";
+
 
     /**
      * Defines for the type of list

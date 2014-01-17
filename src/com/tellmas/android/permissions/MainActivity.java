@@ -32,6 +32,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
     private FragmentManager fragmentManager;
     private final Fragment fragments[] = new Fragment[2];
+    private int currentlyDisplayedFragmentIndex;
 
     // --- Navigation Drawer ---
     private String[] slideoutMenuItems;
@@ -105,13 +106,20 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         // set the just defined ActionBarDrawerToggle as the drawer listener
         this.drawerLayout.setDrawerListener(drawerToggle);
 
-        // --- create the default starting Fragment ---
-        this.fragments[GlobalDefines.STARTING_FRAGMENT_INDEX] = this.instantiateFragment(GlobalDefines.STARTING_FRAGMENT_INDEX);
+        // --- create the starting Fragment ---
+        if (savedInstanceState != null) {
+            this.currentlyDisplayedFragmentIndex = savedInstanceState.getInt(GlobalDefines.BUNDLE_KEY_FRAGMENT_TO_RESTORE);
+            this.fragments[this.currentlyDisplayedFragmentIndex] =
+                    this.instantiateFragment(this.currentlyDisplayedFragmentIndex);
+        } else {
+            this.fragments[GlobalDefines.STARTING_FRAGMENT_INDEX] = this.instantiateFragment(GlobalDefines.STARTING_FRAGMENT_INDEX);
+            this.currentlyDisplayedFragmentIndex = GlobalDefines.STARTING_FRAGMENT_INDEX;
+        }
 
         // === insert into the content frame the default starting Fragment ===
         this.fragmentManager = this.getFragmentManager();
         FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.content, this.fragments[GlobalDefines.STARTING_FRAGMENT_INDEX]);
+        fragmentTransaction.add(R.id.content, this.fragments[this.currentlyDisplayedFragmentIndex]);
         fragmentTransaction.commit();
     }
 
@@ -194,8 +202,8 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
         super.onSaveInstanceState(outState);
 
-        // TODO: determine if we need to save anything
         //outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_APP_LIST, this.theAppList);
+        outState.putInt(GlobalDefines.BUNDLE_KEY_FRAGMENT_TO_RESTORE, this.currentlyDisplayedFragmentIndex);
     }
 
 
@@ -313,6 +321,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         boolean replaceFragment = true;
         Fragment removeMe = null;
         Fragment currentlyDisplayedFragment = this.fragmentManager.findFragmentById(R.id.content);
+        this.currentlyDisplayedFragmentIndex = position;
 
         // --- Show the Progress bar again. ---
         this.progressBar.setProgress(0);
