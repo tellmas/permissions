@@ -125,6 +125,11 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
     /* ******************* Unused lifecycle methods *********************** */
     @Override
+    protected void onRestart() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestart()");
+        super.onRestart();
+    }
+    @Override
     protected void onStart() {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
         super.onStart();
