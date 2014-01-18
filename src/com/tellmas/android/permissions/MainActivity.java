@@ -319,8 +319,6 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      * (non-Javadoc)
      */
     private void swapContent(int position, long id) {
-        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": swapContent()");
-        Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": swapContent(): position: " + Integer.toString(position) + "  -  id: " + Long.toString(id));
 
         boolean keepLastTransaction = true;
         boolean replaceFragment = true;
