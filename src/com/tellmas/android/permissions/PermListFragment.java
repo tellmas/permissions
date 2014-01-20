@@ -30,6 +30,13 @@ import android.widget.ExpandableListView;
 
 import com.tellmas.android.permissions.AppListFragment.AppListFragmentListener;
 
+/**
+ * Fragment for the content View.
+ * For installed apps with a launcher, obtains the permissions requested by said apps.
+ * Displays:
+ *   - each permission with its description
+ *   - each app which requested it along with that app's label, icon and package
+ */
 public class PermListFragment extends ListFragment {
 
     private ArrayList<com.tellmas.android.permissions.PermissionInfo> thePermList;
