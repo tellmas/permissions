@@ -234,6 +234,11 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestart()");
         super.onRestart();
     }
+    @Override
+    protected void onDestroy() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        super.onDestroy();
+    }
     /* ****************** END Unused lifecycle methods ******************** */
 
 

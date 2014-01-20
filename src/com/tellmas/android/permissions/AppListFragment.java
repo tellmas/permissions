@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.content.pm.PermissionInfo;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -128,6 +130,17 @@ public class AppListFragment extends ListFragment {
 
     /* ******************* Unused lifecycle methods *********************** */
     @Override
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewCreated()");
+        super.onViewCreated(view, savedInstanceState);
+    }
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewStateRestored()");
+        super.onViewStateRestored(savedInstanceState);
+    }
+    @Override
     public void onStart() {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
         super.onStart();
@@ -146,6 +159,11 @@ public class AppListFragment extends ListFragment {
     public void onStop() {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
         super.onStop();
+    }
+    @Override
+    public void onTrimMemory(int level) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onTrimMemory()");
+        super.onTrimMemory(level);
     }
     @Override
     public void onDestroyView() {
