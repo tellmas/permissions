@@ -39,6 +39,26 @@ public class PermListFragment extends ListFragment {
 
 
     /**
+     * Sets up the connection for callbacks to the parent Activity.
+     *
+     * @param activity the containing Activity
+     * @throws ClassCastException
+     * @see android.app.Fragment#onAttach(android.app.Activity)
+     */
+    @Override
+    public void onAttach(Activity activity) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
+        super.onAttach(activity);
+
+        try {
+            this.parentActivityListener = (AppListFragmentListener) activity;
+        } catch (ClassCastException cce) {
+            throw new ClassCastException(activity.getClass().getName() + " did not implement PermListFragmentListener");
+        }
+    }
+
+
+    /**
      * @param savedInstanceState data to start with
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
@@ -52,28 +72,6 @@ public class PermListFragment extends ListFragment {
         if (savedInstanceState != null) {
             this.thePermList = savedInstanceState.getParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_PERM_LIST);
         }
-    }
-
-
-    /**
-     * @param outState where to store the data that will be restored later
-     * @see android.app.Fragment#onSaveInstanceState(android.os.Bundle)
-     */
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_PERM_LIST, this.thePermList);
-    }
-
-
-    /**
-     * Executes the AsyncTask inner-class.
-     */
-    public void getTheDataAndDisplayIt() {
-        GetThePermsAsyncTask getThePerms = new GetThePermsAsyncTask();
-        getThePerms.execute(this.parentActivity);
     }
 
 
@@ -97,26 +95,6 @@ public class PermListFragment extends ListFragment {
     }
 
 
-    /**
-     * Sets up the connection for callbacks to the parent Activity.
-     *
-     * @param activity the containing Activity
-     * @throws ClassCastException
-     * @see android.app.Fragment#onAttach(android.app.Activity)
-     */
-    @Override
-    public void onAttach(Activity activity) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
-        super.onAttach(activity);
-
-        try {
-            this.parentActivityListener = (AppListFragmentListener) activity;
-        } catch (ClassCastException cce) {
-            throw new ClassCastException(activity.getClass().getName() + " did not implement PermListFragmentListener");
-        }
-    }
-
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onActivityCreated()");
@@ -133,6 +111,19 @@ public class PermListFragment extends ListFragment {
         if (this.getRetainInstance() == true) {
             this.setRetainInstance(false);
         }
+    }
+
+
+    /**
+     * @param outState where to store the data that will be restored later
+     * @see android.app.Fragment#onSaveInstanceState(android.os.Bundle)
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_PERM_LIST, this.thePermList);
     }
 
 
@@ -173,6 +164,15 @@ public class PermListFragment extends ListFragment {
         super.onDetach();
     }
     /* ****************** END Unused lifecycle methods ******************** */
+
+
+    /**
+     * Executes the AsyncTask inner-class.
+     */
+    public void getTheDataAndDisplayIt() {
+        GetThePermsAsyncTask getThePerms = new GetThePermsAsyncTask();
+        getThePerms.execute(this.parentActivity);
+    }
 
 
     /*

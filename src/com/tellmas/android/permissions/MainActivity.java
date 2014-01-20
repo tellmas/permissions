@@ -137,43 +137,6 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         }
     }
 
-    /* ******************* Unused lifecycle methods *********************** */
-    @Override
-    protected void onRestart() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestart()");
-        super.onRestart();
-    }
-    @Override
-    protected void onStart() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
-        super.onStart();
-    }
-    @Override
-    protected void onRestoreInstanceState(android.os.Bundle savedInstanceState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestoreInstanceState()");
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-    @Override
-    protected void onResume() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
-        super.onResume();
-    }
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onWindowFocusChanged(): has focus: " + Boolean.toString(hasFocus));
-        super.onWindowFocusChanged(hasFocus);
-    }
-    @Override
-    protected void onPause() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
-        super.onPause();
-    }
-    @Override
-    protected void onStop() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
-        super.onStop();
-    }
-    /* ****************** END Unused lifecycle methods ******************** */
 
     /**
      * @see android.app.Activity#onPostCreate(android.os.Bundle)
@@ -224,6 +187,44 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
         fragment.setRetainInstance(true);
     }
+
+    /* ******************* Unused lifecycle methods *********************** */
+    @Override
+    protected void onStart() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        super.onStart();
+    }
+    @Override
+    protected void onRestoreInstanceState(android.os.Bundle savedInstanceState) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestoreInstanceState()");
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+    @Override
+    protected void onResume() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        super.onResume();
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onWindowFocusChanged(): has focus: " + Boolean.toString(hasFocus));
+        super.onWindowFocusChanged(hasFocus);
+    }
+    @Override
+    protected void onPause() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        super.onPause();
+    }
+    @Override
+    protected void onStop() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        super.onStop();
+    }
+    @Override
+    protected void onRestart() {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestart()");
+        super.onRestart();
+    }
+    /* ****************** END Unused lifecycle methods ******************** */
 
 
     /**

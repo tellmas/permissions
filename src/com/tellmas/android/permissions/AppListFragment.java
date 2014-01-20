@@ -38,6 +38,27 @@ public class AppListFragment extends ListFragment {
 
     private ExpandableListView appListView;
 
+
+    /**
+     * Sets up the connection for callbacks to the parent Activity.
+     *
+     * @param activity the containing Activity
+     * @throws ClassCastException
+     * @see android.app.Fragment#onAttach(android.app.Activity)
+     */
+    @Override
+    public void onAttach(Activity activity) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
+        super.onAttach(activity);
+
+        try {
+            this.parentActivityListener = (AppListFragmentListener) activity;
+        } catch (ClassCastException cce) {
+            throw new ClassCastException(activity.getClass().getName() + " did not implement AppListFragmentListener");
+        }
+    }
+
+
     /**
      * @param savedInstanceState data to start with
      * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -52,26 +73,6 @@ public class AppListFragment extends ListFragment {
         if (savedInstanceState != null) {
             this.theAppList = savedInstanceState.getParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_APP_LIST);
         }
-    }
-
-    /**
-     * @param outState where to store the data that will be restored later
-     * @see android.app.Fragment#onSaveInstanceState(android.os.Bundle)
-     */
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
-        super.onSaveInstanceState(outState);
-
-        outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_APP_LIST, this.theAppList);
-    }
-
-    /***
-     * Executes the AsyncTask inner-class.
-     */
-    public void getTheDataAndDisplayIt() {
-        GetTheAppsAsyncTask getTheApps = new GetTheAppsAsyncTask();
-        getTheApps.execute(this.parentActivity);
     }
 
 
@@ -92,6 +93,7 @@ public class AppListFragment extends ListFragment {
         return inflater.inflate(R.layout.fragment_applist_layout, container, false);
     }
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onActivityCreated()");
@@ -109,6 +111,20 @@ public class AppListFragment extends ListFragment {
             this.setRetainInstance(false);
         }
     }
+
+
+    /**
+     * @param outState where to store the data that will be restored later
+     * @see android.app.Fragment#onSaveInstanceState(android.os.Bundle)
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_APP_LIST, this.theAppList);
+    }
+
 
     /* ******************* Unused lifecycle methods *********************** */
     @Override
@@ -148,23 +164,13 @@ public class AppListFragment extends ListFragment {
     }
     /* ****************** END Unused lifecycle methods ******************** */
 
-    /**
-     * Sets up the connection for callbacks to the parent Activity.
-     *
-     * @param activity the containing Activity
-     * @throws ClassCastException
-     * @see android.app.Fragment#onAttach(android.app.Activity)
-     */
-    @Override
-    public void onAttach(Activity activity) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
-        super.onAttach(activity);
 
-        try {
-            this.parentActivityListener = (AppListFragmentListener) activity;
-        } catch (ClassCastException cce) {
-            throw new ClassCastException(activity.getClass().getName() + " did not implement AppListFragmentListener");
-        }
+    /***
+     * Executes the AsyncTask inner-class.
+     */
+    public void getTheDataAndDisplayIt() {
+        GetTheAppsAsyncTask getTheApps = new GetTheAppsAsyncTask();
+        getTheApps.execute(this.parentActivity);
     }
 
 
