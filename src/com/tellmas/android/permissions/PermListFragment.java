@@ -35,6 +35,8 @@ public class PermListFragment extends ListFragment {
     private Activity parentActivity;
     private AppListFragmentListener parentActivityListener;
 
+    private ExpandableListView permListView;
+
 
     /**
      * @param savedInstanceState data to start with
@@ -49,11 +51,20 @@ public class PermListFragment extends ListFragment {
 
         if (savedInstanceState != null) {
             this.thePermList = savedInstanceState.getParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_PERM_LIST);
-            this.displayTheResults(this.thePermList);
-        } else {
-
-            this.getTheDataAndDisplayIt();
         }
+    }
+
+
+    /**
+     * @param outState where to store the data that will be restored later
+     * @see android.app.Fragment#onSaveInstanceState(android.os.Bundle)
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_PERM_LIST, this.thePermList);
     }
 
 
@@ -105,12 +116,27 @@ public class PermListFragment extends ListFragment {
         }
     }
 
-    /* ******************* Unused lifecycle methods *********************** */
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onActivityCreated()");
         super.onActivityCreated(savedInstanceState);
+
+        this.permListView = (ExpandableListView) this.getView().findViewById(R.id.perms_list);
+
+        if (this.thePermList == null) {
+            this.getTheDataAndDisplayIt();
+        } else {
+            this.displayTheResults(this.thePermList);
+        }
+
+        if (this.getRetainInstance() == true) {
+            this.setRetainInstance(false);
+        }
     }
+
+
+    /* ******************* Unused lifecycle methods *********************** */
     @Override
     public void onStart() {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
@@ -158,11 +184,11 @@ public class PermListFragment extends ListFragment {
 
         int numberOfApps = 0;
         try {
-            numberOfApps = theList.size();
-            // === Display all the apps ===
-            PermListExpandableListAdapter permListAdapter = new PermListExpandableListAdapter(this.parentActivity, theList);
-            ExpandableListView permListView = (ExpandableListView) this.parentActivity.findViewById(R.id.perms_list);
-            permListView.setAdapter(permListAdapter);
+            numberOfApps = this.thePermList.size();
+
+            // === Display all the permissions ===
+            PermListExpandableListAdapter permListAdapter = new PermListExpandableListAdapter(this.parentActivity, this.thePermList);
+            this.permListView.setAdapter(permListAdapter);
         // if 'theList' was null...
         } catch (NullPointerException npe) {
             Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of permissions was null");

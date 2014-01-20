@@ -41,6 +41,14 @@ public final class GlobalDefines extends Application {
      */
     public static final String BUNDLE_KEY_FRAGMENT_TO_RESTORE = "FragmentToRestore";
 
+    /**
+     * indicates an index of a Fragment
+     */
+    public static final String BUNDLE_KEY_FRAGMENT_INDEX = "FragmentIndex";
+    /**
+     * indicates a tag of a Fragment
+     */
+    public static final String BUNDLE_KEY_FRAGMENT_TAG = "FragmentTag";
 
     /**
      * Defines for the type of list

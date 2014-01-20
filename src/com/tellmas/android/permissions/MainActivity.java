@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +56,8 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.fragmentManager = this.getFragmentManager();
 
         this.progressBar = (ProgressBar)findViewById(R.id.progress);
         this.progressBar.setProgress(0);
@@ -106,21 +109,32 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         // set the just defined ActionBarDrawerToggle as the drawer listener
         this.drawerLayout.setDrawerListener(drawerToggle);
 
-        // --- create the starting Fragment ---
+        // === Set up the starting Fragment. ===
+        // if a Fragment is indicated to be restored...
         if (savedInstanceState != null) {
-            this.currentlyDisplayedFragmentIndex = savedInstanceState.getInt(GlobalDefines.BUNDLE_KEY_FRAGMENT_TO_RESTORE);
+
+            this.currentlyDisplayedFragmentIndex = savedInstanceState.getInt(GlobalDefines.BUNDLE_KEY_FRAGMENT_INDEX);
             this.fragments[this.currentlyDisplayedFragmentIndex] =
-                    this.instantiateFragment(this.currentlyDisplayedFragmentIndex);
+                    this.fragmentManager.findFragmentByTag(savedInstanceState.getString(GlobalDefines.BUNDLE_KEY_FRAGMENT_TAG));
+
+            FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.content, this.fragments[this.currentlyDisplayedFragmentIndex], new Time().toString());
+            fragmentTransaction.commit();
+
+            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate(): saved Fragment index: " + Integer.toString(savedInstanceState.getInt(GlobalDefines.BUNDLE_KEY_FRAGMENT_INDEX)));
+            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate(): saved Fragment tag: " + savedInstanceState.getString(GlobalDefines.BUNDLE_KEY_FRAGMENT_TAG));
+            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate(): Fragment has retain instance set: " + Boolean.toString(this.fragments[this.currentlyDisplayedFragmentIndex].getRetainInstance()));
+
+        // ...else create the default starting Fragment...
         } else {
             this.fragments[GlobalDefines.STARTING_FRAGMENT_INDEX] = this.instantiateFragment(GlobalDefines.STARTING_FRAGMENT_INDEX);
             this.currentlyDisplayedFragmentIndex = GlobalDefines.STARTING_FRAGMENT_INDEX;
-        }
 
-        // === insert into the content frame the default starting Fragment ===
-        this.fragmentManager = this.getFragmentManager();
-        FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.content, this.fragments[this.currentlyDisplayedFragmentIndex]);
-        fragmentTransaction.commit();
+            // === insert into the content frame the default starting Fragment ===
+            FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.content, this.fragments[this.currentlyDisplayedFragmentIndex], new Time().toString());
+            fragmentTransaction.commit();
+        }
     }
 
     /* ******************* Unused lifecycle methods *********************** */
@@ -159,11 +173,6 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
         super.onStop();
     }
-    @Override
-    protected void onDestroy() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
-        super.onDestroy();
-    }
     /* ****************** END Unused lifecycle methods ******************** */
 
     /**
@@ -197,7 +206,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
 
     /**
-     * Saves all the app's data so don't have to go get it all again on a screen orientation change.
+     * Saves the current Fragment's tag and index in case currently undergoing a configuration change.
      *
      * @param outState the Bundle in which to store the data
      * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
@@ -207,8 +216,13 @@ public class MainActivity extends Activity implements AppListFragmentListener {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
         super.onSaveInstanceState(outState);
 
-        //outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_APP_LIST, this.theAppList);
-        outState.putInt(GlobalDefines.BUNDLE_KEY_FRAGMENT_TO_RESTORE, this.currentlyDisplayedFragmentIndex);
+        // Save the tag and index of the current Fragment in case we are doing a configuration change.
+        //    (and want to restore the Fragment easily)
+        Fragment fragment = this.fragments[currentlyDisplayedFragmentIndex];
+        outState.putString(GlobalDefines.BUNDLE_KEY_FRAGMENT_TAG, fragment.getTag());
+        outState.putInt(GlobalDefines.BUNDLE_KEY_FRAGMENT_INDEX, this.currentlyDisplayedFragmentIndex);
+
+        fragment.setRetainInstance(true);
     }
 
 
@@ -382,7 +396,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
                 transaction.remove(removeMe);
             }
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.replace(R.id.content, this.fragments[position]);
+            transaction.replace(R.id.content, this.fragments[position], new Time().toString());
             if (keepLastTransaction && transaction.isAddToBackStackAllowed()) {
                 transaction.addToBackStack(null);
             }

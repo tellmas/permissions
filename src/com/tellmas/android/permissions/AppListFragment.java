@@ -36,6 +36,8 @@ public class AppListFragment extends ListFragment {
     private Activity parentActivity;
     private AppListFragmentListener parentActivityListener;
 
+    private ExpandableListView appListView;
+
     /**
      * @param savedInstanceState data to start with
      * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -49,12 +51,20 @@ public class AppListFragment extends ListFragment {
 
         if (savedInstanceState != null) {
             this.theAppList = savedInstanceState.getParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_APP_LIST);
-            this.displayTheResults(this.theAppList);
-        } else {
-            this.getTheDataAndDisplayIt();
         }
     }
 
+    /**
+     * @param outState where to store the data that will be restored later
+     * @see android.app.Fragment#onSaveInstanceState(android.os.Bundle)
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_APP_LIST, this.theAppList);
+    }
 
     /***
      * Executes the AsyncTask inner-class.
@@ -82,12 +92,25 @@ public class AppListFragment extends ListFragment {
         return inflater.inflate(R.layout.fragment_applist_layout, container, false);
     }
 
-    /* ******************* Unused lifecycle methods *********************** */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onActivityCreated()");
         super.onActivityCreated(savedInstanceState);
+
+        this.appListView = (ExpandableListView) this.getView().findViewById(R.id.apps_list);
+
+        if (this.theAppList == null) {
+            this.getTheDataAndDisplayIt();
+        } else {
+            this.displayTheResults(this.theAppList);
+        }
+
+        if (this.getRetainInstance() == true) {
+            this.setRetainInstance(false);
+        }
     }
+
+    /* ******************* Unused lifecycle methods *********************** */
     @Override
     public void onStart() {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
@@ -154,11 +177,11 @@ public class AppListFragment extends ListFragment {
 
         int numberOfApps = 0;
         try {
-            numberOfApps = theList.size();
+            numberOfApps = this.theAppList.size();
+
             // === Display all the apps ===
-            AppListExpandableListAdapter appListAdapter = new AppListExpandableListAdapter(this.parentActivity, theList);
-            ExpandableListView appListView = (ExpandableListView) this.parentActivity.findViewById(R.id.apps_list);
-            appListView.setAdapter(appListAdapter);
+            AppListExpandableListAdapter appListAdapter = new AppListExpandableListAdapter(this.parentActivity, this.theAppList);
+            this.appListView.setAdapter(appListAdapter);
         // if 'theList' was null...
         } catch (NullPointerException npe) {
             Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of apps was null");
