@@ -69,7 +69,7 @@ public class PermListFragment extends ListFragment {
 
     /**
      * @param savedInstanceState data to start with
-     * @see android.app.Activity#onCreate(android.os.Bundle)
+     * @see android.app.Fragment#onCreate(android.os.Bundle)
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
