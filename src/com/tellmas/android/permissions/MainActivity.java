@@ -277,27 +277,20 @@ public class MainActivity extends Activity implements AppListFragmentListener {
     @Override
     public void setFinished(int numOfItems, int itemType) {
 
-        // TODO: find a better way to handle the screen re-orientation
-        try {
-            this.progressBar.setVisibility(View.GONE);
+        this.progressBar.setVisibility(View.GONE);
 
-            // TODO: convert this to be more automatic
-            TextView numOfItemsLabel = (TextView) this.findViewById(R.id.number_of_apps_label);
-            if (itemType == GlobalDefines.LIST_TYPE_APPS) {
-                numOfItemsLabel.setText(getResources().getString(R.string.number_of_apps));
-            } else if (itemType == GlobalDefines.LIST_TYPE_PERMS) {
-                numOfItemsLabel.setText(getResources().getString(R.string.number_of_perms));
-            }
-            numOfItemsLabel.setVisibility(View.VISIBLE);
-
-            TextView numOfItemsInList = (TextView) this.findViewById(R.id.number_of_items_num);
-            numOfItemsInList.setText(Integer.toString(numOfItems));
-            numOfItemsInList.setVisibility(View.VISIBLE);
-
-        // if couldn't find the Views...
-        } catch (NullPointerException npe) {
-            Log.w(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": setFinished(): NPE when getting Views. Screen orientation probably changed.");
+        // TODO: convert this to be more automatic
+        TextView numOfItemsLabel = (TextView) this.findViewById(R.id.number_of_apps_label);
+        if (itemType == GlobalDefines.LIST_TYPE_APPS) {
+            numOfItemsLabel.setText(getResources().getString(R.string.number_of_apps));
+        } else if (itemType == GlobalDefines.LIST_TYPE_PERMS) {
+            numOfItemsLabel.setText(getResources().getString(R.string.number_of_perms));
         }
+        numOfItemsLabel.setVisibility(View.VISIBLE);
+
+        TextView numOfItemsInList = (TextView) this.findViewById(R.id.number_of_items_num);
+        numOfItemsInList.setText(Integer.toString(numOfItems));
+        numOfItemsInList.setVisibility(View.VISIBLE);
     }
 
 
