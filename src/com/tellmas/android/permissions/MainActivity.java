@@ -276,6 +276,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     public void setFinished(int numOfItems, int itemType) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": setFinished()");
 
         this.progressBar.setVisibility(View.GONE);
 
