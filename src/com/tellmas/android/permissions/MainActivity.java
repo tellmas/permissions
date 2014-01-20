@@ -154,6 +154,9 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
 
     /**
+     * Syncs the toggle state of the ActionBarDrawerToggle
+     *
+     * @param savedInstanceState data used to restore the previous state
      * @see android.app.Activity#onPostCreate(android.os.Bundle)
      */
     @Override
@@ -167,6 +170,10 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
 
     /**
+     * (see @return)
+     *
+     * @param the menu item that was selected
+     * @return true if the ActionBarDrawerToggle handled the app icon touch event, false otherwise
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
     @Override
@@ -184,9 +191,9 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
 
     /**
-     * Saves the current Fragment's tag and index in case currently undergoing a configuration change.
+     * Saves the current Fragment's tag and index, and tells the Fragment to retain its instance state in case currently undergoing a configuration change.
      *
-     * @param outState the Bundle in which to store the data
+     * @param outState the Bundle in which to store the data to restore the state
      * @see android.app.Activity#onSaveInstanceState(android.os.Bundle)
      */
     @Override
@@ -202,6 +209,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
         fragment.setRetainInstance(true);
     }
+
 
     /* ******************* Unused lifecycle methods *********************** */
     @Override
@@ -246,6 +254,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      * Updates the ProgressBar.
      * Also sets the max value for the ProgressBar if the @param 'soFar' is 1 or less
      *   (the idea being when this method is first called)
+     *
      * @param soFar how far along the app list we are
      * @param total total number of apps in the list
      */
@@ -263,6 +272,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      * Called when the active Fragment has finished loading its data.
      *
      *  @param numOfApps the number of apps to be displayed
+     *  @param itemType list type as defined in GlobalDefines
      */
     @Override
     public void setFinished(int numOfItems, int itemType) {
@@ -293,6 +303,7 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
     /*
      * Creates a new instance of the requested Class.
+     *
      * @param fragmentClassNamesIndex index of the desired Class name in GlobalDefines.FRAGMENT_CLASS_NAMES
      * @return an instance of the requested Class (a sub-class of Fragment)
      * (non-Javadoc)

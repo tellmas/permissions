@@ -26,7 +26,7 @@ import android.widget.ExpandableListView;
 
 /**
  * Fragment for the content View.
- * For installed apps with a launcher, obtains the data and displays the app's:
+ * For installed apps with a launcher, obtains the data and displays each app's:
  *   - icon, label and package name
  *   - requested permissions along with the indicated description (if existing/available)
  */
@@ -62,8 +62,8 @@ public class AppListFragment extends ListFragment {
 
 
     /**
-     * @param savedInstanceState data to start with
-     * @see android.app.Activity#onCreate(android.os.Bundle)
+     * @param savedInstanceState data used to restore the previous state
+     * @see android.app.Fragment#onCreate(android.os.Bundle)
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,9 +79,13 @@ public class AppListFragment extends ListFragment {
 
 
     /**
-     * Returns this fragment's layout.
+     * Instantiates this Fragment's View.
      *
-     * @see android.app.Fragment#onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+     * @param inflater the LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container the parent view that this fragment's UI should be attached to
+     * @param savedInstanceState data used to restore the previous state
+     * @return the main View for this Fragment
+     * @see android.app.ListFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
      */
     @Override
     public View onCreateView(
@@ -96,6 +100,13 @@ public class AppListFragment extends ListFragment {
     }
 
 
+    /**
+     * Sets up the main View for this Fragment and kicks off filling it with the data.
+     * Also, kicks off the gathering of that data if needed.
+     *
+     * @param savedInstanceState data used to restore the previous state
+     * @see android.app.Fragment#onActivityCreated(android.os.Bundle)
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onActivityCreated()");
@@ -116,6 +127,8 @@ public class AppListFragment extends ListFragment {
 
 
     /**
+     * Bundles up the list of apps and their data.
+     *
      * @param outState where to store the data that will be restored later
      * @see android.app.Fragment#onSaveInstanceState(android.os.Bundle)
      */
@@ -183,8 +196,8 @@ public class AppListFragment extends ListFragment {
     /* ****************** END Unused lifecycle methods ******************** */
 
 
-    /***
-     * Executes the AsyncTask inner-class.
+    /**
+     * Executes the AsyncTask inner-class to get all the data.
      */
     public void getTheDataAndDisplayIt() {
         GetTheAppsAsyncTask getTheApps = new GetTheAppsAsyncTask();
@@ -194,6 +207,7 @@ public class AppListFragment extends ListFragment {
 
     /*
      * Uses an expanded BaseExpandableListAdapter to display the apps and their permissions.
+     *
      * @param theList a List<ApplicationInfo> of the apps
      * (non-Javadoc)
      */
@@ -215,7 +229,9 @@ public class AppListFragment extends ListFragment {
     }
 
 
-    /* Uses an expanded BaseExpandableListAdapter to display the apps and their permissions.
+    /*
+     * Uses an expanded BaseExpandableListAdapter to display the apps and their permissions.
+     *
      * @param theList an ArrayList<ApplicationInfo> of the apps
      * (non-Javadoc)
      */
@@ -226,7 +242,7 @@ public class AppListFragment extends ListFragment {
 
 
     /*
-     * Calls the parent Activity's callback to update the progress.
+     * Calls the parent Activity's callback to update the displayed progress in the UI.
      *
      * @param soFar how far along the app list we are
      * @param total total number of apps in the list
@@ -239,8 +255,7 @@ public class AppListFragment extends ListFragment {
 
     // -------------------------------------------------------------------------
     /**
-     * Interface of callbacks to the containing Activity (which the containing
-     *   Activity must implement).
+     * Interface of callbacks to the containing Activity (which the containing Activity must implement).
      */
     public interface AppListFragmentListener {
         public void updateProgress(int soFar, int total);

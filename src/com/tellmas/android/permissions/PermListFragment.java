@@ -85,11 +85,13 @@ public class PermListFragment extends ListFragment {
 
 
     /**
-     * Sets this fragment's layout and executes the task to get the permissions and the apps which use them.
+     * Instantiates this Fragment's View.
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState data with which to start
+     * @param inflater the LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container the parent view that this fragment's UI should be attached to
+     * @param savedInstanceState data used to restore the previous state
+     * @return the main View for this Fragment
+     * @see android.app.ListFragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
      */
     @Override
     public View onCreateView(
@@ -104,6 +106,13 @@ public class PermListFragment extends ListFragment {
     }
 
 
+    /**
+     * Sets up the main View for this Fragment and kicks off filling it with the data.
+     * Also, kicks off the gathering of that data if needed.
+     *
+     * @param savedInstanceState data used to restore the previous state
+     * @see android.app.Fragment#onActivityCreated(android.os.Bundle)
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onActivityCreated()");
@@ -124,6 +133,8 @@ public class PermListFragment extends ListFragment {
 
 
     /**
+     * Bundles up the list of apps and their data.
+     *
      * @param outState where to store the data that will be restored later
      * @see android.app.Fragment#onSaveInstanceState(android.os.Bundle)
      */
@@ -202,6 +213,7 @@ public class PermListFragment extends ListFragment {
 
     /*
      * Uses an expanded BaseExpandableListAdapter to display the permissions and the apps that request them.
+     *
      * @param theList a List<PermissionInfo> of the permissions
      * (non-Javadoc)
      */
@@ -223,8 +235,9 @@ public class PermListFragment extends ListFragment {
     }
 
 
-    /* Uses an expanded BaseExpandableListAdapter to display the apps and their permissions.
-     * @param theList an ArrayList<ApplicationInfo> of the apps
+    /* Uses an expanded BaseExpandableListAdapter to display the permissions and their apps.
+     *
+     * @param theList an ArrayList<ApplicationInfo> of the permissions
      * (non-Javadoc)
      */
     private void finalizeTheResults(ArrayList<com.tellmas.android.permissions.PermissionInfo> theList) {
