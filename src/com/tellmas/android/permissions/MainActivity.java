@@ -139,6 +139,21 @@ public class MainActivity extends Activity implements AppListFragmentListener {
 
 
     /**
+     * Tells the current Fragment to turn off retaining its state since it only needs that if this Activity was recreated.
+     *
+     * @param savedInstanceState data used to restore the previous state
+     * @see android.app.Activity#onRestoreInstanceState(android.os.Bundle)
+     */
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestoreInstanceState()");
+        super.onRestoreInstanceState(savedInstanceState);
+
+        this.fragments[currentlyDisplayedFragmentIndex].setRetainInstance(false);
+    }
+
+
+    /**
      * @see android.app.Activity#onPostCreate(android.os.Bundle)
      */
     @Override
@@ -193,11 +208,6 @@ public class MainActivity extends Activity implements AppListFragmentListener {
     protected void onStart() {
         Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
         super.onStart();
-    }
-    @Override
-    protected void onRestoreInstanceState(android.os.Bundle savedInstanceState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestoreInstanceState()");
-        super.onRestoreInstanceState(savedInstanceState);
     }
     @Override
     protected void onResume() {
