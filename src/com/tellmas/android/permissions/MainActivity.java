@@ -223,59 +223,6 @@ public class MainActivity extends Activity implements AppListFragmentListener {
     }
 
 
-    /* ******************* Unused lifecycle methods *********************** */
-    @Override
-    protected void onStart() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
-        }
-        super.onStart();
-    }
-    @Override
-    protected void onResume() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
-        }
-        super.onResume();
-    }
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onWindowFocusChanged(): has focus: " + Boolean.toString(hasFocus));
-        }
-        super.onWindowFocusChanged(hasFocus);
-    }
-    @Override
-    protected void onPause() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
-        }
-        super.onPause();
-    }
-    @Override
-    protected void onStop() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
-        }
-        super.onStop();
-    }
-    @Override
-    protected void onRestart() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestart()");
-        }
-        super.onRestart();
-    }
-    @Override
-    protected void onDestroy() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
-        }
-        super.onDestroy();
-    }
-    /* ****************** END Unused lifecycle methods ******************** */
-
-
     /**
      * Updates the ProgressBar.
      * Also sets the max value for the ProgressBar if the @param 'soFar' is 1 or less
@@ -469,4 +416,59 @@ public class MainActivity extends Activity implements AppListFragmentListener {
             swapContent(position, id);
         }
     }
+
+
+    /* ******************* Unused lifecycle methods *********************** */
+    /*
+    @Override
+    protected void onStart() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        }
+        super.onStart();
+    }
+    @Override
+    protected void onResume() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        }
+        super.onResume();
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onWindowFocusChanged(): has focus: " + Boolean.toString(hasFocus));
+        }
+        super.onWindowFocusChanged(hasFocus);
+    }
+    @Override
+    protected void onPause() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        }
+        super.onPause();
+    }
+    @Override
+    protected void onStop() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        }
+        super.onStop();
+    }
+    @Override
+    protected void onRestart() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestart()");
+        }
+        super.onRestart();
+    }
+    @Override
+    protected void onDestroy() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        }
+        super.onDestroy();
+    }
+    */
+    /* ****************** END Unused lifecycle methods ******************** */
 }

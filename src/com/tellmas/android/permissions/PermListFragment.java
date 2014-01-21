@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
@@ -20,7 +19,6 @@ import android.content.pm.PermissionInfo;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -155,81 +153,6 @@ public class PermListFragment extends ListFragment {
 
         outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_PERM_LIST, this.thePermList);
     }
-
-
-    /* ******************* Unused lifecycle methods *********************** */
-    @Override
-    public void onViewCreated (View view, Bundle savedInstanceState) {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewCreated()");
-        }
-        super.onViewCreated(view, savedInstanceState);
-    }
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewStateRestored()");
-        }
-        super.onViewStateRestored(savedInstanceState);
-    }
-    @Override
-    public void onStart() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
-        }
-        super.onStart();
-    }
-    @Override
-    public void onResume() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
-        }
-        super.onResume();
-    }
-    @Override
-    public void onPause() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
-        }
-        super.onPause();
-    }
-    @Override
-    public void onStop() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
-        }
-        super.onStop();
-    }
-    @Override
-    public void onTrimMemory(int level) {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onTrimMemory()");
-        }
-        super.onTrimMemory(level);
-    }
-    @Override
-    public void onDestroyView() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroyView()");
-        }
-        super.onDestroyView();
-    }
-    @Override
-    public void onDestroy() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
-        }
-        super.onDestroy();
-    }
-    @Override
-    public void onDetach() {
-        if (GlobalDefines.LOG_LOCAL) {
-            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDetach()");
-        }
-        super.onDetach();
-    }
-    /* ****************** END Unused lifecycle methods ******************** */
 
 
     /**
@@ -617,4 +540,81 @@ public class PermListFragment extends ListFragment {
         }
 
     } // end getTheAppsAsyncTask
+
+
+    /* ******************* Unused lifecycle methods *********************** */
+    /*
+    @Override
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewCreated()");
+        }
+        super.onViewCreated(view, savedInstanceState);
+    }
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewStateRestored()");
+        }
+        super.onViewStateRestored(savedInstanceState);
+    }
+    @Override
+    public void onStart() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        }
+        super.onStart();
+    }
+    @Override
+    public void onResume() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        }
+        super.onResume();
+    }
+    @Override
+    public void onPause() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        }
+        super.onPause();
+    }
+    @Override
+    public void onStop() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        }
+        super.onStop();
+    }
+    @Override
+    public void onTrimMemory(int level) {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onTrimMemory()");
+        }
+        super.onTrimMemory(level);
+    }
+    @Override
+    public void onDestroyView() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroyView()");
+        }
+        super.onDestroyView();
+    }
+    @Override
+    public void onDestroy() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        }
+        super.onDestroy();
+    }
+    @Override
+    public void onDetach() {
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDetach()");
+        }
+        super.onDetach();
+    }
+    */
+    /* ****************** END Unused lifecycle methods ******************** */
 }
