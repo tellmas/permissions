@@ -257,7 +257,7 @@ public class PermListFragment extends ListFragment {
             this.permListView.setAdapter(permListAdapter);
         // if 'this.thePermList' was null...
         } catch (NullPointerException npe) {
-            Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of permissions was null");
+            Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of permissions was null", npe);
         } finally {
             this.parentActivityListener.setFinished(numberOfApps, GlobalDefines.LIST_TYPE_PERMS);
         }

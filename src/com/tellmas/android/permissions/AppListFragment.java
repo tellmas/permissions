@@ -253,7 +253,7 @@ public class AppListFragment extends ListFragment {
         // if 'this.theAppList' was null...
         } catch (NullPointerException npe) {
             if (GlobalDefines.LOG_LOCAL) {
-                Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of apps was null");
+                Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of apps was null", npe);
             }
         } finally {
             this.parentActivityListener.setFinished(numberOfApps, GlobalDefines.LIST_TYPE_APPS);
