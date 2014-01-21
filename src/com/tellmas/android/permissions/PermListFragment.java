@@ -307,7 +307,9 @@ public class PermListFragment extends ListFragment {
                                 // ...add it.
                                 appsForThisPermission.add(packageName);
                                 permissionsWithTheirApps.put(perm, appsForThisPermission);
-                                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
+                                if (GlobalDefines.LOG_LOCAL) {
+                                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
+                                }
                             }
                             // else... this else case shouldn't happen.
                             // We're iterating through the apps, so this is the first time we've encountered this app.
