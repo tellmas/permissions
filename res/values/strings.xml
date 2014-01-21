@@ -3,8 +3,6 @@
 
     <string name="app_name">Permissions</string>
     <string name="action_settings">Settings</string>
-    <string name="list_apps">List Installed Apps</string>
-    <string name="list_apps_activity_label">Installed Apps</string>
     <string name="number_of_apps">Number of Installed Apps: </string>
     <string name="number_of_perms">Number of Permissions: </string>
     <string name="description_of_app_icon">app icon</string>
