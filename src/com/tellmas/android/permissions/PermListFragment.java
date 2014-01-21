@@ -131,7 +131,7 @@ public class PermListFragment extends ListFragment {
         if (this.thePermList == null) {
             this.getTheDataAndDisplayIt();
         } else {
-            this.displayTheResults(this.thePermList);
+            this.displayTheResults();
         }
 
         if (this.getRetainInstance() == true) {
@@ -244,10 +244,9 @@ public class PermListFragment extends ListFragment {
     /*
      * Uses an expanded BaseExpandableListAdapter to display the permissions and the apps that request them.
      *
-     * @param theList a List<PermissionInfo> of the permissions
      * (non-Javadoc)
      */
-    private void displayTheResults(List<com.tellmas.android.permissions.PermissionInfo> theList) {
+    private void displayTheResults() {
 
         int numberOfApps = 0;
         try {
@@ -256,7 +255,7 @@ public class PermListFragment extends ListFragment {
             // === Display all the permissions ===
             PermListExpandableListAdapter permListAdapter = new PermListExpandableListAdapter(this.parentActivity, this.thePermList);
             this.permListView.setAdapter(permListAdapter);
-        // if 'theList' was null...
+        // if 'this.thePermList' was null...
         } catch (NullPointerException npe) {
             Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of permissions was null");
         } finally {
@@ -272,7 +271,7 @@ public class PermListFragment extends ListFragment {
      */
     private void finalizeTheResults(ArrayList<com.tellmas.android.permissions.PermissionInfo> theList) {
         this.thePermList = theList;
-        this.displayTheResults(theList);
+        this.displayTheResults();
     }
 
 

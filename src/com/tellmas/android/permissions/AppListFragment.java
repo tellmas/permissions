@@ -125,7 +125,7 @@ public class AppListFragment extends ListFragment {
         if (this.theAppList == null) {
             this.getTheDataAndDisplayIt();
         } else {
-            this.displayTheResults(this.theAppList);
+            this.displayTheResults();
         }
 
         if (this.getRetainInstance() == true) {
@@ -241,7 +241,7 @@ public class AppListFragment extends ListFragment {
      * @param theList a List<ApplicationInfo> of the apps
      * (non-Javadoc)
      */
-    private void displayTheResults(List<ApplicationInfo> theList) {
+    private void displayTheResults() {
 
         int numberOfApps = 0;
         try {
@@ -250,7 +250,7 @@ public class AppListFragment extends ListFragment {
             // === Display all the apps ===
             AppListExpandableListAdapter appListAdapter = new AppListExpandableListAdapter(this.parentActivity, this.theAppList);
             this.appListView.setAdapter(appListAdapter);
-        // if 'theList' was null...
+        // if 'this.theAppList' was null...
         } catch (NullPointerException npe) {
             if (GlobalDefines.LOG_LOCAL) {
                 Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": the list of apps was null");
@@ -269,7 +269,7 @@ public class AppListFragment extends ListFragment {
      */
     private void finalizeTheResults(ArrayList<ApplicationInfo> theList) {
         this.theAppList = theList;
-        this.displayTheResults(theList);
+        this.displayTheResults();
     }
 
 
