@@ -56,7 +56,9 @@ public class PermListFragment extends ListFragment {
      */
     @Override
     public void onAttach(Activity activity) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onAttach()");
+        }
         super.onAttach(activity);
 
         try {
@@ -73,7 +75,9 @@ public class PermListFragment extends ListFragment {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
+        }
         super.onCreate(savedInstanceState);
 
         this.parentActivity = this.getActivity();
@@ -99,7 +103,9 @@ public class PermListFragment extends ListFragment {
             ViewGroup container,
             Bundle savedInstanceState
     ) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreateView()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreateView()");
+        }
         super.onCreateView(inflater, container, savedInstanceState);
 
         return inflater.inflate(R.layout.fragment_permlist_layout, container, false);
@@ -115,7 +121,9 @@ public class PermListFragment extends ListFragment {
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onActivityCreated()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onActivityCreated()");
+        }
         super.onActivityCreated(savedInstanceState);
 
         this.permListView = (ExpandableListView) this.getView().findViewById(R.id.perms_list);
@@ -140,7 +148,9 @@ public class PermListFragment extends ListFragment {
      */
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        }
         super.onSaveInstanceState(outState);
 
         outState.putParcelableArrayList(GlobalDefines.BUNDLE_KEY_FOR_PERM_LIST, this.thePermList);
@@ -150,53 +160,73 @@ public class PermListFragment extends ListFragment {
     /* ******************* Unused lifecycle methods *********************** */
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewCreated()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewCreated()");
+        }
         super.onViewCreated(view, savedInstanceState);
     }
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewStateRestored()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onViewStateRestored()");
+        }
         super.onViewStateRestored(savedInstanceState);
     }
     @Override
     public void onStart() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        }
         super.onStart();
     }
     @Override
     public void onResume() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        }
         super.onResume();
     }
     @Override
     public void onPause() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        }
         super.onPause();
     }
     @Override
     public void onStop() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        }
         super.onStop();
     }
     @Override
     public void onTrimMemory(int level) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onTrimMemory()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onTrimMemory()");
+        }
         super.onTrimMemory(level);
     }
     @Override
     public void onDestroyView() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroyView()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroyView()");
+        }
         super.onDestroyView();
     }
     @Override
     public void onDestroy() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        }
         super.onDestroy();
     }
     @Override
     public void onDetach() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDetach()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDetach()");
+        }
         super.onDetach();
     }
     /* ****************** END Unused lifecycle methods ******************** */
@@ -316,24 +346,32 @@ public class PermListFragment extends ListFragment {
                     packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
                 // if the package wasn't found on the system...
                 } catch (NameNotFoundException nnfe) {
-                    Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName + " wasn't found on the system.");
+                    if (GlobalDefines.LOG_LOCAL) {
+                        Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName + " wasn't found on the system.");
+                    }
                     // ...skip it.
                     continue;
                     /* This really shouldn't happen though, because the same
                      * package manager was used to get the list of activities. */
                 }
-                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
+                if (GlobalDefines.LOG_LOCAL) {
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
+                }
 
                 // === get the requested permissions for this app ===
                 String[] permsRequestedByThisApp = packageInfo.requestedPermissions;
                 // if this app requests one or more permissions...
                 if (permsRequestedByThisApp != null) {
-                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": requested permissions array length: " + Integer.toString(permsRequestedByThisApp.length));
+                    if (GlobalDefines.LOG_LOCAL) {
+                        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": requested permissions array length: " + Integer.toString(permsRequestedByThisApp.length));
+                    }
 
                     // === Iterate through the permissions requested by the current app. ===
                     for (String perm : permsRequestedByThisApp) {
 
-                    	Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": current permission: " + perm);
+                        if (GlobalDefines.LOG_LOCAL) {
+                            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": current permission: " + perm);
+                        }
 
                         if (this.isCancelled()) {
                             return null;
@@ -357,14 +395,18 @@ public class PermListFragment extends ListFragment {
                             appsForThisPermission = new HashSet<String>();
                             appsForThisPermission.add(packageName);
                             permissionsWithTheirApps.put(perm, appsForThisPermission);
-                            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": First time encountering: " + perm + ". Adding it to the list.");
-                            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
+                            if (GlobalDefines.LOG_LOCAL) {
+                                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": First time encountering: " + perm + ". Adding it to the list.");
+                                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Adding " + packageName + " to " + perm);
+                            }
                         }
                     }
                 // ...else the app didn't request any permissions...
                 } else {
                     // ...so the permissions won't be listed.
-                	Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": No permissions for this app.");
+                    if (GlobalDefines.LOG_LOCAL) {
+                        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": No permissions for this app.");
+                    }
                 }
 
                 // set total number of permissions for the progress indicator
@@ -376,7 +418,9 @@ public class PermListFragment extends ListFragment {
             // the List to return
             ArrayList<com.tellmas.android.permissions.PermissionInfo> theListOfPermissions =
                     new ArrayList<com.tellmas.android.permissions.PermissionInfo>(permissionsWithTheirApps.size());
-            Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": *** Construting the data which will be displayed. ***");
+            if (GlobalDefines.LOG_LOCAL) {
+                Log.d(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": *** Construting the data which will be displayed. ***");
+            }
 
             // === Iterate through the permissions to construct the data List which will be returned. ===
             Iterator<String> permissionsIterator = permissionsWithTheirApps.keySet().iterator();
@@ -384,14 +428,20 @@ public class PermListFragment extends ListFragment {
 
                 String permission = permissionsIterator.next();
 
-                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": === Permission ===");
+                if (GlobalDefines.LOG_LOCAL) {
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": === Permission ===");
+                }
                 PermissionInfo permInfo = null; // android.content.pm.PermissionInfo
                 try {
-                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permission);
+                    if (GlobalDefines.LOG_LOCAL) {
+                        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permission);
+                    }
                     permInfo = pm.getPermissionInfo(permission, PackageManager.GET_META_DATA);
                 // if the package manager did not find the permission...
                 } catch (NameNotFoundException nnfe) {
-                    Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Permission not found: " + permission);
+                    if (GlobalDefines.LOG_LOCAL) {
+                        Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": Permission not found: " + permission);
+                    }
                     // ...create a bare-bones PermissionInfo object to use instead.
                     permInfo = new PermissionInfo();
                     permInfo.labelRes = 0;
@@ -418,7 +468,9 @@ public class PermListFragment extends ListFragment {
                         permissionName = permission;
                     }
                 }
-                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permissionName);
+                if (GlobalDefines.LOG_LOCAL) {
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + permissionName);
+                }
 
                 // --- permission Description ---
                 String description = null;
@@ -438,17 +490,21 @@ public class PermListFragment extends ListFragment {
                     } else if (permission.startsWith(GlobalDefines.ANDROID_PERMISSION_PREFIX, 0)) {
                         // ...but we didn't find the description earlier...
                         // ...log the permission.
-                        Log.e(GlobalDefines.LOG_TAG,
-                            this.getClass().getSimpleName() +
-                            ": Error getting description for (the android.permission. permission): " +
-                            permission
-                        );
+                        if (GlobalDefines.LOG_LOCAL) {
+                            Log.e(GlobalDefines.LOG_TAG,
+                                    this.getClass().getSimpleName() +
+                                    ": Error getting description for (the android.permission. permission): " +
+                                    permission
+                            );
+                        }
                         description = null;
                     } else {
                         description = context.getResources().getString(R.string.permission_defined_elsewhere);
                     }
                 }
-                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + description);
+                if (GlobalDefines.LOG_LOCAL) {
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + description);
+                }
 
                 // the data for all the apps that use this permission
                 List<ApplicationInfo> theAppsDataList = new LinkedList<ApplicationInfo>();
@@ -457,7 +513,9 @@ public class PermListFragment extends ListFragment {
 
                 // === Iterate through each of the apps by package name. ===
                 Iterator<String> appPackagesIterator = theAppsPackages.iterator();
-                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": --- Apps using this permission ---");
+                if (GlobalDefines.LOG_LOCAL) {
+                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": --- Apps using this permission ---");
+                }
                 while (appPackagesIterator.hasNext()) {
 
                     if (this.isCancelled()) {
@@ -465,14 +523,18 @@ public class PermListFragment extends ListFragment {
                     }
 
                     String packageName = appPackagesIterator.next();
-                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
+                    if (GlobalDefines.LOG_LOCAL) {
+                        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName);
+                    }
 
                     PackageInfo packageInfo = null;
                     try {
                         packageInfo = pm.getPackageInfo(packageName, 0);
                     // if the package wasn't found on the system...
                     } catch (NameNotFoundException nnfe) {
-                        Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName + " wasn't found on the system.");
+                        if (GlobalDefines.LOG_LOCAL) {
+                            Log.e(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + packageName + " wasn't found on the system.");
+                        }
                         // ...skip it.
                         continue;
                         /* This really shouldn't happen though, because the same
@@ -481,14 +543,18 @@ public class PermListFragment extends ListFragment {
 
                     // --- app's Label ---
                     String appLabel = packageInfo.applicationInfo.loadLabel(pm).toString();
-                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + appLabel);
+                    if (GlobalDefines.LOG_LOCAL) {
+                        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": " + appLabel);
+                    }
 
                     // --- icon's Resource Id ---
                     int iconResourceId = packageInfo.applicationInfo.icon;
                     if (iconResourceId == 0) {
                         iconResourceId = packageInfo.applicationInfo.logo;
                     }
-                    Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": icon resource id: " + Integer.toString(iconResourceId));
+                    if (GlobalDefines.LOG_LOCAL) {
+                        Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": icon resource id: " + Integer.toString(iconResourceId));
+                    }
 
                     // Add this app's data to the List for the permission.
                     theAppsDataList.add(

@@ -8,6 +8,11 @@ import android.app.Application;
 public final class GlobalDefines extends Application {
 
     /**
+     * for development Log statements
+     */
+    public static final boolean LOG_LOCAL = true;
+
+    /**
      * the "tag" for android.util.Log
      */
     public static final String LOG_TAG = "PERMSIES";

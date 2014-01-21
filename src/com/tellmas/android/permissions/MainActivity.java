@@ -53,7 +53,9 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate()");
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -121,9 +123,11 @@ public class MainActivity extends Activity implements AppListFragmentListener {
             fragmentTransaction.replace(R.id.content, this.fragments[this.currentlyDisplayedFragmentIndex], new Time().toString());
             fragmentTransaction.commit();
 
-            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate(): saved Fragment index: " + Integer.toString(savedInstanceState.getInt(GlobalDefines.BUNDLE_KEY_FRAGMENT_INDEX)));
-            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate(): saved Fragment tag: " + savedInstanceState.getString(GlobalDefines.BUNDLE_KEY_FRAGMENT_TAG));
-            Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate(): Fragment has retain instance set: " + Boolean.toString(this.fragments[this.currentlyDisplayedFragmentIndex].getRetainInstance()));
+            if (GlobalDefines.LOG_LOCAL) {
+                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate(): saved Fragment index: " + Integer.toString(savedInstanceState.getInt(GlobalDefines.BUNDLE_KEY_FRAGMENT_INDEX)));
+                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate(): saved Fragment tag: " + savedInstanceState.getString(GlobalDefines.BUNDLE_KEY_FRAGMENT_TAG));
+                Log.v(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onCreate(): Fragment has retain instance set: " + Boolean.toString(this.fragments[this.currentlyDisplayedFragmentIndex].getRetainInstance()));
+            }
 
         // ...else create the default starting Fragment...
         } else {
@@ -146,7 +150,9 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestoreInstanceState()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestoreInstanceState()");
+        }
         super.onRestoreInstanceState(savedInstanceState);
 
         this.fragments[currentlyDisplayedFragmentIndex].setRetainInstance(false);
@@ -161,7 +167,9 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPostCreate()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPostCreate()");
+        }
         super.onPostCreate(savedInstanceState);
 
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -178,7 +186,9 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onOptionsItemSelected()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onOptionsItemSelected()");
+        }
 
         // if ActionBarDrawerToggle returns true...
         if (this.drawerToggle.onOptionsItemSelected(item)) {
@@ -198,7 +208,9 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     protected void onSaveInstanceState (Bundle outState) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onSaveInstanceState()");
+        }
         super.onSaveInstanceState(outState);
 
         // Save the tag and index of the current Fragment in case we are doing a configuration change.
@@ -214,37 +226,51 @@ public class MainActivity extends Activity implements AppListFragmentListener {
     /* ******************* Unused lifecycle methods *********************** */
     @Override
     protected void onStart() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStart()");
+        }
         super.onStart();
     }
     @Override
     protected void onResume() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onResume()");
+        }
         super.onResume();
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onWindowFocusChanged(): has focus: " + Boolean.toString(hasFocus));
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onWindowFocusChanged(): has focus: " + Boolean.toString(hasFocus));
+        }
         super.onWindowFocusChanged(hasFocus);
     }
     @Override
     protected void onPause() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onPause()");
+        }
         super.onPause();
     }
     @Override
     protected void onStop() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onStop()");
+        }
         super.onStop();
     }
     @Override
     protected void onRestart() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestart()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onRestart()");
+        }
         super.onRestart();
     }
     @Override
     protected void onDestroy() {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": onDestroy()");
+        }
         super.onDestroy();
     }
     /* ****************** END Unused lifecycle methods ******************** */
@@ -276,7 +302,9 @@ public class MainActivity extends Activity implements AppListFragmentListener {
      */
     @Override
     public void setFinished(int numOfItems, int itemType) {
-        Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": setFinished()");
+        if (GlobalDefines.LOG_LOCAL) {
+            Log.i(GlobalDefines.LOG_TAG, this.getClass().getSimpleName() + ": setFinished()");
+        }
 
         this.progressBar.setVisibility(View.GONE);
 
